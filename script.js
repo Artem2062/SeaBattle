@@ -8,11 +8,11 @@ if (localStorage.getItem("enterSeabattle") == 0 && (document.title == "Rules" ||
 if (localStorage.getItem('enterSeabattle') == 1 && document.title == "Registration") {
     window.location.href = 'index3.html';
 }
-if (localStorage.getItem('enterGame') == 1 && document.title != "Gamefield") {
-    window.location.href = 'index5.html';
+if (localStorage.getItem('enterGame') == 1 && document.title != "Game") {
+    window.location.href = 'index7.html';
 }
 
-if (localStorage.getItem('enterSeabattle') == 1 && document.title != "Create" && (document.title != "Registration" || document.title != "Enter")) {
+if (localStorage.getItem('enterSeabattle') == 1 && (document.title == "Fields"||document.title=="Rules")) {
     let templateCode = `
         <ul>
             <a href="index3.html">Поля</a>
@@ -164,33 +164,10 @@ if (document.title == "Create") {
 }
 
 
-
-
-
-
 if (document.title == "Gamefield") {
-    localStorage.setItem('enterGame', 1)
     startGameButton.addEventListener('click', function () {
-        let templateCode = `
-            <div style="display:flex;justify-content: space-evenly">
-                <p class="fieldText">Ваше поле</p>
-                <p class="fieldText">Поле соперника</p>
-            </div>
-            <div class="twoFieldsBox">
-                <div class="mineField" id="mineField"></div>
-                <div class="enemyField" id="enemyField"></div>
-            </div>
-        `
-        let template = Handlebars.compile(templateCode);
-        let bo = document.querySelector('#fieldBox');
-        let hed = document.querySelector('#header');
-        let hed2 = document.querySelector('header');
-        let fot = document.querySelector('footer');
-        bo.innerHTML = '';
-        hed.innerHTML=''
-        hed2.style.background='#DCECF2'
-        fot.style.background='#DCECF2'
-        bo.innerHTML = template()
+        localStorage.setItem('enterGame', 1)
+        window.location.href="index7.html"
 
     })
     let templateCode = `
@@ -201,6 +178,11 @@ if (document.title == "Gamefield") {
     head.innerHTML = '';
     head.innerHTML = template()
     exitGameButton.addEventListener('click', function () {
+        window.location.href = 'index3.html';
+    })
+}
+if (document.title == "Game"){
+    loseButton.addEventListener('click',function(){
         localStorage.setItem('enterGame', 0)
         window.location.href = 'index3.html';
     })
