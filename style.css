@@ -2,45 +2,6 @@ body {
     background-color: #DCECF2;
 }
 
-header {
-    margin: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    top: 0;
-    position: fixed;
-    width: 100%;
-    background-color: rgb(129, 216, 208);
-    height: 100px;
-}
-
-ul {
-    display: flex;
-    margin: 0;
-}
-
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    height: 100px;
-    width: 100%;
-    background-color: rgb(129, 216, 208);
-}
-
-a {
-    list-style-type: none;
-    margin: 0px 20% 0px 20%;
-    text-decoration: none;
-    align-items: center;
-    display: flex;
-    color: rgb(2, 10, 24);
-    font-size: 26px;
-    font-weight: 500;
-}
-
-/*INDEX, INDEX 2 STYLES*/
-
 .registration-box {
     margin-left: 15%;
     margin-right: 15%;
@@ -64,6 +25,35 @@ a {
     border-radius: 5px;
 }
 
+header {
+    margin: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    top: 0;
+    position: fixed;
+    width: 100%;
+    background-color: rgb(129, 216, 208);
+    height: 100px;
+    z-index: 100;
+}
+
+ul {
+    display: flex;
+    margin: 0;
+}
+
+a {
+    list-style-type: none;
+    margin: 0px 20% 0px 20%;
+    text-decoration: none;
+    align-items: center;
+    display: flex;
+    color: rgb(2, 10, 24);
+    font-size: 26px;
+    font-weight: 500;
+}
+
 .registration-button {
     width: 30%;
     height: auto;
@@ -71,8 +61,14 @@ a {
     cursor: pointer;
 }
 
-/*INDEX, INDEX 2 STYLES*/
-
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    background-color: rgb(129, 216, 208);
+}
 
 .exitButton {
     height: auto;
@@ -110,27 +106,19 @@ a {
 }
 
 .mineField {
-    width: 600px;
+    width: 800px;
+    height: 800px;
+    display: flex;
     aspect-ratio: 1 / 1;
     background-color: blue;
-    height: 600px;
-    display:flex;
-    flex-direction:row;
-    flex-wrap:wrap;
-    padding: 1 1px;
-    min-width: 600px;
 }
 
 .enemyField {
-    width: 600px;
-    height: 600px;
+    width: 800px;
+    height: 800px;
+    display: flex;
     aspect-ratio: 1 / 1;
     background-color: blue;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 1 1px;
-    min-width: 600px;
 }
 
 .exitGameButton {
@@ -167,8 +155,8 @@ a {
     justify-content: space-evenly;
     height: 70vh;
     width: 100%;
-
-    
+    position: relative;
+    margin-top: 50px;
 }
 
 .startGameButton {
@@ -183,14 +171,24 @@ a {
     font-size: 40px;
     display: flex;
 }
+.fieldElement{
+    width: 78px;
+    margin: 1px 1px 2px 1px;
+    height: 78px;
+    background: antiquewhite;
+}
+.fieldElement2{
+    width: 78px;
+    margin: 1px 1px 2px 1px;
+    height: 78px;
+    background: red;
+}
 .mineblock{
-    padding-top: 10vh;
+    padding-top: 20vh;
 }
 .enemyblock{
-    padding-top: 10vh;
-    
+    padding-top: 20vh;
 }
-
 
 
 @media(min-width:1px)and (max-width:1620px) {
@@ -200,7 +198,7 @@ a {
 
 }
 
-@media(min-width:800px)and (max-width:1300px) {
+@media(min-width:800px)and (max-width:1660px) {
     .registration-box {
         margin-left: 2%;
         margin-right: 2%;
@@ -222,15 +220,16 @@ a {
     }
     
     .mineblock{
-        padding-top: 15vh;
+        padding-top: 35vh;
         align-items: center;
         margin-left: auto;   
+        
     }
 
     .enemyblock{
-        margin-top: 1600px; 
+        margin-top: 2100px; 
         align-items: center; 
-        margin-left: -600px;  
+        margin-left: -800px;  
         margin-right: 10%;
     }
     
@@ -261,17 +260,18 @@ a {
         height: 70px;
     }
     .mineblock{
-        padding-top: 15vh;
+        padding-top: 40vh;
         align-items: center;
         margin-left: auto;   
     }
 
     .enemyblock{
-        margin-top: 1600px; 
+        margin-top: 2200px; 
         align-items: center; 
-        margin-left: -600px;  
+        margin-left: -800px;  
         margin-right: 20%;
     }
+
 }
 
 /* https://studyprograms.informatics.ru/api/jsonstorage/*/

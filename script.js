@@ -123,11 +123,7 @@ if (document.title == "Fields") {
 
     })
     CreateField.addEventListener('click', function () {
-        if (localStorage.getItem('status') == 'user') {
-            alert("У вас недостаточно прав")
-        } else {
             window.location.href = "index6.html"
-        }
     })
 }
 if (document.title == "Create") {
@@ -185,5 +181,10 @@ if (document.title == "Game"){
     loseButton.addEventListener('click',function(){
         localStorage.setItem('enterGame', 0)
         window.location.href = 'index3.html';
+    })
+    document.addEventListener('click',function(e){
+        if(e.target.id.slice(0,9)=="fieldPart"){
+            e.target.classList.toggle('fieldElement2')
+        }
     })
 }
