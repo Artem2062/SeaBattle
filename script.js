@@ -2,6 +2,77 @@
 let xhr = new XMLHttpRequest();
 xhr.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=0e8a6538b291d291d144eeb9f1a49801', true);
 xhr.send();
+function enter() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        let usersArr = JSON.parse(xhr.responseText)
+        let flag1 = true
+        for (let i in usersArr) {
+            if (usersArr[i].login == login.value && usersArr[i].password != password.value) {
+                flag1 = false
+                alert("Неверный пароль")
+                break
+            }
+            if (usersArr[i].login == login.value && usersArr[i].password == password.value) {
+                flag1 = false
+                localStorage.setItem('status', usersArr[i].status)
+                localStorage.setItem('enterSeabattle', 1)
+                localStorage.setItem('login', login.value)
+                localStorage.setItem('nickname', usersArr[i].nickname)
+                alert("Вы успешно вошли в аккаунт")
+                window.location.href = 'index3.html';
+                break
+            }
+        }
+        if (flag1 == true) {
+            alert("Такого аккаунта не существует")
+        }
+    }
+}
+function register() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        let usersArr = JSON.parse(xhr.responseText)
+        let user = {
+            nickname: '',
+            login: '',
+            password: '',
+            status: 'user'
+        }
+        if (nickname.value == "" || login.value == "" || password.value == "") {
+            alert("Все поля должны быть заполнены")
+        } else {
+            let flag1 = true
+            for (let i in usersArr) {
+                if (usersArr[i].login == login.value) {
+                    flag1 = false
+                    alert("Данный логин уже занят")
+                    break
+                }
+            }
+            if (flag1 == true) {
+                user.nickname = nickname.value
+                user.login = login.value
+                user.password = password.value
+                nickname.value = ""
+                login.value = ""
+                password.value = ""
+                usersArr.push(user)
+                let xhrSender = new XMLHttpRequest();
+                xhrSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=0e8a6538b291d291d144eeb9f1a49801', true)
+                xhrSender.setRequestHeader("Content-type", "application/json");
+                xhrSender.send(JSON.stringify(usersArr));
+                xhrSender.addEventListener('readystatechange', function () {
+                    if (xhrSender.readyState == 4) {
+                        if (xhrSender.status == 200) {
+                            alert('Пользователь успешно зарегестрирован!');
+                        } else {
+                            alert('Ошибка отправки. Попробуйте еще раз.');
+                        }
+                    }
+                })
+            }
+        }
+    }
+}
 if (localStorage.getItem("enterSeabattle") == 0 && (document.title == "Rules" || document.title == "Fields")) {
     window.location.href = 'index.html';
 }
@@ -12,7 +83,7 @@ if (localStorage.getItem('enterGame') == 1 && document.title != "Game") {
     window.location.href = 'index7.html';
 }
 
-if (localStorage.getItem('enterSeabattle') == 1 && (document.title == "Fields"||document.title=="Rules")) {
+if (localStorage.getItem('enterSeabattle') == 1 && (document.title == "Fields" || document.title == "Rules")) {
     let templateCode = `
         <ul>
             <a href="index3.html">Поля</a>
@@ -32,74 +103,21 @@ if (localStorage.getItem('enterSeabattle') == 1 && (document.title == "Fields"||
 
 if (document.title == "Registration") {
     registrationButton.addEventListener('click', function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            let usersArr = JSON.parse(xhr.responseText)
-            let user = {
-                nickname: '',
-                login: '',
-                password: '',
-                status: 'user'
-            }
-            if (nickname.value == "" || login.value == "" || password.value == "") {
-                alert("Все поля должны быть заполнены")
-            } else {
-                let flag1 = true
-                for (let i in usersArr) {
-                    if (usersArr[i].login == login.value) {
-                        flag1 = false
-                        alert("Данный логин уже занят")
-                        break
-                    }
-                }
-                if (flag1 == true) {
-                    user.nickname = nickname.value
-                    user.login = login.value
-                    user.password = password.value
-                    nickname.value = ""
-                    login.value = ""
-                    password.value = ""
-                    usersArr.push(user)
-                    let xhrSender = new XMLHttpRequest();
-                    xhrSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=0e8a6538b291d291d144eeb9f1a49801', true)
-                    xhrSender.setRequestHeader("Content-type", "application/json");
-                    xhrSender.send(JSON.stringify(usersArr));
-                    xhrSender.addEventListener('readystatechange', function () {
-                        if (xhrSender.readyState == 4) {
-                            if (xhrSender.status == 200) {
-                                alert('Пользователь успешно зарегестрирован!');
-                            } else {
-                                alert('Ошибка отправки. Попробуйте еще раз.');
-                            }
-                        }
-                    })
-                }
-            }
+        register()
+    })
+    document.addEventListener('keydown', function (e) {
+        if (e.key == "Enter") {
+            register()
         }
     })
 }
 if (document.title == "Enter") {
     enterButton.addEventListener('click', function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            let usersArr = JSON.parse(xhr.responseText)
-            let flag1 = true
-            for (let i in usersArr) {
-                if (usersArr[i].login == login.value && usersArr[i].password != password.value) {
-                    flag1 = false
-                    alert("Неверный пароль")
-                    break
-                }
-                if (usersArr[i].login == login.value && usersArr[i].password == password.value) {
-                    flag1 = false
-                    localStorage.setItem('status', usersArr[i].status)
-                    localStorage.setItem('enterSeabattle', 1)
-                    alert("Вы успешно вошли в аккаунт")
-                    window.location.href = 'index3.html';
-                    break
-                }
-            }
-            if (flag1 == true) {
-                alert("Такого аккаунта не существует")
-            }
+        enter()
+    })
+    document.addEventListener('keydown', function (e) {
+        if (e.key == "Enter") {
+            enter()
         }
     })
 }
@@ -120,10 +138,9 @@ if (document.title == "Fields") {
                 fieldul.innerHTML += template(field)
             }
         }
-
     })
     CreateField.addEventListener('click', function () {
-            window.location.href = "index6.html"
+        window.location.href = "index6.html"
     })
 }
 if (document.title == "Create") {
@@ -159,11 +176,10 @@ if (document.title == "Create") {
     })
 }
 
-
 if (document.title == "Gamefield") {
     startGameButton.addEventListener('click', function () {
         localStorage.setItem('enterGame', 1)
-        window.location.href="index7.html"
+        window.location.href = "index7.html"
 
     })
     let templateCode = `
@@ -177,14 +193,40 @@ if (document.title == "Gamefield") {
         window.location.href = 'index3.html';
     })
 }
-if (document.title == "Game"){
-    loseButton.addEventListener('click',function(){
+let ready = new XMLHttpRequest();
+ready.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=77b9447533d064e056a4996a3459df8c', true);
+ready.send();
+if (document.title == "Game") {
+    loseButton.addEventListener('click', function () {
         localStorage.setItem('enterGame', 0)
         window.location.href = 'index3.html';
     })
-    document.addEventListener('click',function(e){
-        if(e.target.id.slice(0,9)=="fieldPart"){
+    document.addEventListener('click', function (e) {
+        if (e.target.id.slice(0, 9) == "fieldPart") {
             e.target.classList.toggle('fieldElement2')
         }
+    })
+    readyButton.addEventListener('click', function () {
+        let readyArr = JSON.parse(ready.responseText)
+        let newReady = {
+            ready: '',
+            login: ''
+        }
+        newReady.ready=1
+        newReady.login = localStorage.getItem('login')
+        readyArr.push(newReady)
+        let readySender = new XMLHttpRequest();
+        readySender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=77b9447533d064e056a4996a3459df8c', true);
+        readySender.setRequestHeader("Content-type", "application/json");
+        readySender.send(JSON.stringify(readyArr));
+        readySender.addEventListener('readystatechange', function () {
+            if (readySender.readyState == 4) {
+                if (readySender.status == 200) {
+                    alert('Ожидайте соперника');
+                } else {
+                    alert('Ошибка. Попробуйте еще раз.');
+                }
+            }
+        })
     })
 }
