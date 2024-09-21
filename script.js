@@ -204,12 +204,13 @@ if (document.title == "Game") {
     document.addEventListener('click', function (e) {
         if (e.target.id.slice(0, 9) == "fieldPart") {
             e.target.classList.toggle('fieldElement2')
-            chekBoats()
         }
     })
     readyButton.addEventListener('click', function () {
         let gameFlag=false
-        if (chekBoats(gameFlag)) {
+        let a=chekBoats(gameFlag)
+        
+        if (a==true) {
             let readyArr = JSON.parse(ready.responseText)
             let newReady = {
                 ready: '',
@@ -232,18 +233,21 @@ if (document.title == "Game") {
                     }
                 }
             })
-        } else {
+        } else{
             alert('Ошибка в расстановке кораблей')
         }
 
 
     })
 }
-async function chekBoats(gameFlag) {
-    gameFlag = false
+let game = new XMLHttpRequest();
+game.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=77b9447533d064e056a4996a3459df8c', true);
+game.send();
+function chekBoats(gameFlag) {
     let boatsArr = []
     let chekedArr = []
     let nearFlag = true
+    let nearby=true
     let onefieldboat = 0
     let twofieldboat = 0
     let treefieldboat = 0
@@ -358,23 +362,92 @@ async function chekBoats(gameFlag) {
                     if (chekedArr.includes((i + 2) * 10 + j)) {
                         if (chekedArr.includes((i + 3) * 10 + j)) {
                             if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
+                                nearby=false
+                            }
+                            if (chekedArr.includes((i+1) * 10 + j + 1) || chekedArr.includes((i+1) * 10 + j - 1)) {
+                                nearby=false
+                            }
+                            if (chekedArr.includes((i+2) * 10 + j + 1) || chekedArr.includes((i+2) * 10 + j - 1)) {
+                                nearby=false
+                            }
+                            if (chekedArr.includes((i+3) * 10 + j + 1) || chekedArr.includes((i+3) * 10 + j - 1)) {
+                                nearby=false
+                            }
+                        }
+                        if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
+                            nearby=false
+                        }
+                        if (chekedArr.includes((i+1) * 10 + j + 1) || chekedArr.includes((i+1) * 10 + j - 1)) {
+                            nearby=false
+                        }
+                        if (chekedArr.includes((i+2) * 10 + j + 1) || chekedArr.includes((i+2) * 10 + j - 1)) {
+                            nearby=false
+                        }
+                    }
+                    if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
+                        nearby=false
+                    }
+                    if (chekedArr.includes((i+1) * 10 + j + 1) || chekedArr.includes((i+1) * 10 + j - 1)) {
+                        nearby=false
+                    }
+                }
+                if (chekedArr.includes(i * 10 + j+1)) {
+                    if (chekedArr.includes(i * 10 + j+2)) {
+                        if (chekedArr.includes(i * 10 + j+3)) {
+                            if (chekedArr.includes((i+1) * 10 + j) || chekedArr.includes((i-1) * 10 + j)) {
+                                nearby=false
+                            }
+                            if (chekedArr.includes((i+1) * 10 + j + 1) || chekedArr.includes((i-1) * 10 + j + 1)) {
+                                nearby=false
+                            }
+                            if (chekedArr.includes((i+1) * 10 + j + 2) || chekedArr.includes((i-1) * 10 + j + 2)) {
+                                nearby=false
+                            }
+                            if (chekedArr.includes((i+1) * 10 + j + 3) || chekedArr.includes((i-1) * 10 + j + 3)) {
+                                nearby=false
+                            }
+                        }
+                        if (chekedArr.includes((i+1) * 10 + j) || chekedArr.includes((i-1) * 10 + j)) {
+                            nearby=false
+                        }
+                        if (chekedArr.includes((i+1) * 10 + j + 1) || chekedArr.includes((i-1) * 10 + j + 1)) {
+                            nearby=false
+                        }
+                        if (chekedArr.includes((i+1) * 10 + j + 2) || chekedArr.includes((i-1) * 10 + j + 2)) {
+                            nearby=false
+                        }
+                    }
+                    if (chekedArr.includes((i+1) * 10 + j) || chekedArr.includes((i-1) * 10 + j)) {
+                        nearby=false
+                    }
+                    if (chekedArr.includes((i+1) * 10 + j + 1) || chekedArr.includes((i-1) * 10 + j + 1)) {
+                        nearby=false
+                    }
+                }
+                if(chekedArr.includes((i + 1) * 10 + j+1)||chekedArr.includes((i + 1) * 10 + j-1)){
+                    nearby=false
+                }
 
+            }
+
+        }
+    }
+    
+    if(sum==20){
+        if(onefieldboat==4){
+            if(twofieldboat==3){
+                if(treefieldboat==2){
+                    if(fourfieldboat==1){
+                        if(nearFlag==true){
+                            if(nearby==true){
+                                onefieldboat=0
+                                return true
                             }
                         }
                     }
                 }
             }
-
         }
     }
-    if (sum == 20 && onefieldboat == 4 && twofieldboat == 3 && treefieldboat == 2 && fourfieldboat == 1 && nearFlag == true) {
-        console.log(onefieldboat, twofieldboat, treefieldboat, fourfieldboat)
-        return true
-    } else {
-        return false
-    }
+    return false
 }
-
-
-
-
