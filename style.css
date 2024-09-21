@@ -193,7 +193,12 @@ footer {
 .enemyblock{
     padding-top: 20vh;
 }
-
+.readyButton{
+    width: 80px;
+    height: 50px;
+    margin-left: 5%;
+    cursor: pointer;
+}
 
 @media(min-width:1px)and (max-width:1620px) {
     .fieldText {
