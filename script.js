@@ -391,40 +391,40 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                if (chekedArr.includes((i + 1) * 10 + j)&&j==0) {
-                    if (chekedArr.includes((i + 2) * 10 + j)) {
-                        if (chekedArr.includes((i + 3) * 10 + j)) {
-                            if (chekedArr.includes(i * 10 + j + 1)) {
+                if (chekedArr.includes((i+1) * 10)&&j==0) {
+                    if (chekedArr.includes((i + 2) * 10 )) {
+                        if (chekedArr.includes((i + 3) * 10 )) {
+                            if (chekedArr.includes(i * 10  + 1)) {
                                 nearby = false
                             }
-                            if (chekedArr.includes((i + 1) * 10 + j + 1)) {
+                            if (chekedArr.includes((i + 1) * 10 + 1)) {
                                 nearby = false
                             }
-                            if (chekedArr.includes((i + 2) * 10 + j + 1)) {
+                            if (chekedArr.includes((i + 2) * 10 + 1)) {
                                 nearby = false
                             }
-                            if (chekedArr.includes((i + 3) * 10 + j + 1)) {
+                            if (chekedArr.includes((i + 3) * 10+ 1)) {
                                 nearby = false
                             }
                         }
-                        if (chekedArr.includes(i * 10 + j + 1)) {
+                        if (chekedArr.includes(i * 10 + 1)) {
                             nearby = false
                         }
-                        if (chekedArr.includes((i + 1) * 10 + j + 1)) {
+                        if (chekedArr.includes((i + 1) * 10 + 1)) {
                             nearby = false
                         }
-                        if (chekedArr.includes((i + 2) * 10 + j + 1)) {
+                        if (chekedArr.includes((i + 2) * 10 + 1)) {
                             nearby = false
                         }
                     }
-                    if (chekedArr.includes(i * 10 + j + 1)) {
+                    if (chekedArr.includes(i * 10 + 1)) {
                         nearby = false
                     }
-                    if (chekedArr.includes((i + 1) * 10 + j + 1)) {
+                    if (chekedArr.includes((i + 1) * 10 + 1)) {
                         nearby = false
                     }
                 }
-                if (chekedArr.includes((i + 1) * 10 + j)&&j==9) {
+                if (chekedArr.includes((i+1) * 10 + j)&&j==9) {
                     if (chekedArr.includes((i + 2) * 10 + j)) {
                         if (chekedArr.includes((i + 3) * 10 + j)) {
                             if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
@@ -457,7 +457,7 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                if (chekedArr.includes(i * 10 + j + 1)) {
+                if (chekedArr.includes(i * 10 + j + 1)&&j!=0&&j!=9) {
                     if (chekedArr.includes(i * 10 + j + 2)) {
                         if (chekedArr.includes(i * 10 + j + 3)) {
                             if (chekedArr.includes((i + 1) * 10 + j) || chekedArr.includes((i - 1) * 10 + j)) {
@@ -490,7 +490,7 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                if (i != 0 && j != 9) {
+                if (i != 0 && j != 9&&j!=0&&j!=9) {
                     if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i + 1) * 10 + j - 1)) {
                         nearby = false
                     }
@@ -499,9 +499,6 @@ function chekBoats(gameFlag) {
 
         }
     }
-    console.log(onefieldboat, twofieldboat, treefieldboat, fourfieldboat)
-    console.log(nearFlag)
-    console.log(nearby)
     if (sum == 20) {
         if (onefieldboat == 4) {
             if (twofieldboat == 3) {
@@ -509,7 +506,6 @@ function chekBoats(gameFlag) {
                     if (fourfieldboat == 1) {
                         if (nearFlag == true) {
                             if (nearby == true) {
-
                                 return true
                             }
                         }
