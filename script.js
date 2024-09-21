@@ -358,7 +358,7 @@ function chekBoats(gameFlag) {
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             if (chekedArr.includes(i * 10 + j)) {
-                if (chekedArr.includes((i + 1) * 10 + j)) {
+                if (chekedArr.includes((i + 1) * 10 + j)&&j!=0&&j!=9) {
                     if (chekedArr.includes((i + 2) * 10 + j)) {
                         if (chekedArr.includes((i + 3) * 10 + j)) {
                             if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
@@ -388,6 +388,72 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                     if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i + 1) * 10 + j - 1)) {
+                        nearby = false
+                    }
+                }
+                if (chekedArr.includes((i + 1) * 10 + j)&&j==0) {
+                    if (chekedArr.includes((i + 2) * 10 + j)) {
+                        if (chekedArr.includes((i + 3) * 10 + j)) {
+                            if (chekedArr.includes(i * 10 + j + 1)) {
+                                nearby = false
+                            }
+                            if (chekedArr.includes((i + 1) * 10 + j + 1)) {
+                                nearby = false
+                            }
+                            if (chekedArr.includes((i + 2) * 10 + j + 1)) {
+                                nearby = false
+                            }
+                            if (chekedArr.includes((i + 3) * 10 + j + 1)) {
+                                nearby = false
+                            }
+                        }
+                        if (chekedArr.includes(i * 10 + j + 1)) {
+                            nearby = false
+                        }
+                        if (chekedArr.includes((i + 1) * 10 + j + 1)) {
+                            nearby = false
+                        }
+                        if (chekedArr.includes((i + 2) * 10 + j + 1)) {
+                            nearby = false
+                        }
+                    }
+                    if (chekedArr.includes(i * 10 + j + 1)) {
+                        nearby = false
+                    }
+                    if (chekedArr.includes((i + 1) * 10 + j + 1)) {
+                        nearby = false
+                    }
+                }
+                if (chekedArr.includes((i + 1) * 10 + j)&&j==9) {
+                    if (chekedArr.includes((i + 2) * 10 + j)) {
+                        if (chekedArr.includes((i + 3) * 10 + j)) {
+                            if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
+                                nearby = false
+                            }
+                            if (chekedArr.includes((i + 1) * 10 + j - 1)) {
+                                nearby = false
+                            }
+                            if (chekedArr.includes((i + 2) * 10 + j - 1)) {
+                                nearby = false
+                            }
+                            if (chekedArr.includes((i + 3) * 10 + j - 1)) {
+                                nearby = false
+                            }
+                        }
+                        if (chekedArr.includes(i * 10 + j - 1)) {
+                            nearby = false
+                        }
+                        if (chekedArr.includes((i + 1) * 10 + j - 1)) {
+                            nearby = false
+                        }
+                        if (chekedArr.includes((i + 2) * 10 + j - 1)) {
+                            nearby = false
+                        }
+                    }
+                    if (chekedArr.includes(i * 10 + j - 1)) {
+                        nearby = false
+                    }
+                    if (chekedArr.includes((i + 1) * 10 + j - 1)) {
                         nearby = false
                     }
                 }
