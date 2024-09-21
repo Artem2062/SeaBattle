@@ -280,41 +280,4 @@ footer {
 
 /* https://studyprograms.informatics.ru/api/jsonstorage/*/
 /*
-if (boatsArr[i][j + 1] == 1 && chekedArr.includes(i * 10 + j + 1) == false && (j < 8)) {
-                    if (boatsArr[i][j + 2] == 1 && chekedArr.includes(i * 10 + j + 2) == false && (j < 7)) {
-                        if (boatsArr[i][j + 3] == 1 && chekedArr.includes(i * 10 + j + 3) == false) {
-                            if (j < 6 && boatsArr[i][j + 4] == 1 && chekedArr.includes(i * 10 + j + 4) == false) {
-                                nearFlag = false
-                            } else {
-                                fourfieldboat += 1
-                                flag3 = true
-                                chekedArr[chekedArr.length] = i * 10 + j
-                                chekedArr[chekedArr.length] = i * 10 + j + 1
-                                chekedArr[chekedArr.length] = i * 10 + j + 2
-                                chekedArr[chekedArr.length] = i * 10 + j + 3
-                            }
-                        } else {
-                            treefieldboat += 1
-                            flag3 = true
-                            chekedArr[chekedArr.length] = i * 10 + j
-                            chekedArr[chekedArr.length] = i * 10 + j + 1
-                            chekedArr[chekedArr.length] = i * 10 + j + 2
-                        }
-                    } else if (boatsArr[i][j + 1] == 1 && chekedArr.includes(i * 10 + j + 1) == false && j == 7) {
-                        treefieldboat += 1
-                        flag3 = true
-                        chekedArr[chekedArr.length] = i * 10 + j
-                        chekedArr[chekedArr.length] = i * 10 + j + 1
-                        chekedArr[chekedArr.length] = i * 10 + j + 2
-                    } else {
-                        twofieldboat += 1
-                        flag3 = true
-                        chekedArr[chekedArr.length] = i * 10 + j
-                        chekedArr[chekedArr.length] = i * 10 + j + 1
-                    }
-                }
-                if (boatsArr[i][j + 1] == 0 && chekedArr.includes(i * 10 + j + 1) == false) {
-                    flag3=true
-                    onefieldboat += 1
-                }
 */
