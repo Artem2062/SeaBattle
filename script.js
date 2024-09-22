@@ -148,6 +148,8 @@ if (document.title == "Create") {
     create.addEventListener('click', function () {
         if (fieldCreateName.value == "") {
             alert("Заполните поле")
+        } else if(fieldCreateName.value.length>40){
+            alert('Слишком длинное имя.')
         } else {
             let fieldsArr = JSON.parse(fields.responseText)
             let field = {
