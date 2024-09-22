@@ -86,6 +86,7 @@ footer {
 
 .fieldsUl {
     margin-top: 10px;
+    margin-bottom: 110px;
     padding-left: 0;
     width: 100%;
     flex-direction: column;
