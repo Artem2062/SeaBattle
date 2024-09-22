@@ -80,6 +80,7 @@ if (localStorage.getItem('enterSeabattle') == 1 && document.title == "Registrati
     window.location.href = 'index3.html';
 }
 if (localStorage.getItem('enterGame') == 1 && document.title != "Game") {
+    localStorage.setItem('correct',0)
     window.location.href = 'index7.html';
 }
 
@@ -178,6 +179,7 @@ if (document.title == "Create") {
 
 if (document.title == "Gamefield") {
     startGameButton.addEventListener('click', function () {
+        localStorage.setItem('correct', 0)
         localStorage.setItem('enterGame', 1)
         window.location.href = "index7.html"
 
@@ -199,11 +201,14 @@ ready.send();
 if (document.title == "Game") {
     loseButton.addEventListener('click', function () {
         localStorage.setItem('enterGame', 0)
+        localStorage.setItem('correct',0)
         window.location.href = 'index3.html';
     })
     document.addEventListener('click', function (e) {
         if (e.target.id.slice(0, 9) == "fieldPart") {
-            e.target.classList.toggle('fieldElement2')
+            if (localStorage.getItem('correct') == 0) {
+                e.target.classList.toggle('fieldElement2')
+            }
         }
     })
     readyButton.addEventListener('click', function () {
@@ -227,6 +232,7 @@ if (document.title == "Game") {
                 if (readySender.readyState == 4) {
                     if (readySender.status == 200) {
                         readyButton.style.visibility = 'hidden'
+                        localStorage.setItem('correct', 1)
                         alert('Ожидайте соперника');
                     } else {
                         alert('Ошибка. Попробуйте еще раз.');
@@ -358,7 +364,7 @@ function chekBoats(gameFlag) {
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             if (chekedArr.includes(i * 10 + j)) {
-                if (chekedArr.includes((i + 1) * 10 + j)&&j!=0&&j!=9) {
+                if (chekedArr.includes((i + 1) * 10 + j) && j != 0 && j != 9) {
                     if (chekedArr.includes((i + 2) * 10 + j)) {
                         if (chekedArr.includes((i + 3) * 10 + j)) {
                             if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
@@ -391,10 +397,10 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                if (chekedArr.includes((i+1) * 10)&&j==0) {
-                    if (chekedArr.includes((i + 2) * 10 )) {
-                        if (chekedArr.includes((i + 3) * 10 )) {
-                            if (chekedArr.includes(i * 10  + 1)) {
+                if (chekedArr.includes((i + 1) * 10) && j == 0) {
+                    if (chekedArr.includes((i + 2) * 10)) {
+                        if (chekedArr.includes((i + 3) * 10)) {
+                            if (chekedArr.includes(i * 10 + 1)) {
                                 nearby = false
                             }
                             if (chekedArr.includes((i + 1) * 10 + 1)) {
@@ -403,7 +409,7 @@ function chekBoats(gameFlag) {
                             if (chekedArr.includes((i + 2) * 10 + 1)) {
                                 nearby = false
                             }
-                            if (chekedArr.includes((i + 3) * 10+ 1)) {
+                            if (chekedArr.includes((i + 3) * 10 + 1)) {
                                 nearby = false
                             }
                         }
@@ -424,7 +430,7 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                if (chekedArr.includes((i+1) * 10 + j)&&j==9) {
+                if (chekedArr.includes((i + 1) * 10 + j) && j == 9) {
                     if (chekedArr.includes((i + 2) * 10 + j)) {
                         if (chekedArr.includes((i + 3) * 10 + j)) {
                             if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
@@ -457,7 +463,7 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                if (chekedArr.includes(i * 10 + j + 1)&&j!=0&&j!=9) {
+                if (chekedArr.includes(i * 10 + j + 1) && j != 0 && j != 9) {
                     if (chekedArr.includes(i * 10 + j + 2)) {
                         if (chekedArr.includes(i * 10 + j + 3)) {
                             if (chekedArr.includes((i + 1) * 10 + j) || chekedArr.includes((i - 1) * 10 + j)) {
@@ -490,15 +496,17 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                if (i != 0 && j != 9&&j!=0&&j!=9) {
+                if (i != 0 && j != 9 && j != 0 && j != 9) {
                     if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i + 1) * 10 + j - 1)) {
                         nearby = false
                     }
                 }
             }
-
         }
     }
+    console.log(onefieldboat, twofieldboat, treefieldboat, fourfieldboat)
+    console.log(nearFlag)
+    console.log(nearby)
     if (sum == 20) {
         if (onefieldboat == 4) {
             if (twofieldboat == 3) {
