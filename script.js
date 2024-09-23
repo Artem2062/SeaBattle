@@ -80,7 +80,7 @@ if (localStorage.getItem('enterSeabattle') == 1 && document.title == "Registrati
     window.location.href = 'index3.html';
 }
 if (localStorage.getItem('enterGame') == 1 && document.title != "Game") {
-    localStorage.setItem('correct',0)
+    localStorage.setItem('correct', 0)
     window.location.href = 'index7.html';
 }
 
@@ -123,7 +123,7 @@ if (document.title == "Enter") {
     })
 }
 let fields = new XMLHttpRequest();
-fields.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=0b2fe229595998e2de7c3c69440e5647', true);
+fields.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=487a220a1b4010ff77e4980f0e0afbbe', true);
 fields.send();
 if (document.title == "Fields") {
     fields.addEventListener('readystatechange', function () {
@@ -132,33 +132,44 @@ if (document.title == "Fields") {
             let templateCode = `
                 <div onclick="window.location.href='index5.html';" style="cursor: pointer;" class="fieldListElement">Название поля: {{fieldName}}</div>
             `
+            let templateCode2 = `<button id="deleteField" class="CreateField">Удалить поле</button>`
             let template = Handlebars.compile(templateCode);
+            let template2 = Handlebars.compile(templateCode2);
+            let fieldul2 = document.querySelector('#buttons');
             let fieldul = document.querySelector('#fieldsUl');
             fieldul.innerHTML = '';
+            if (localStorage.getItem('status') == 'admin') {
+                fieldul2.innerHTML += template2()
+                localStorage.setItem('fieldsAdd', 1)
+            }
             for (let field of fieldsArr) {
                 fieldul.innerHTML += template(field)
             }
+
         }
     })
     CreateField.addEventListener('click', function () {
         window.location.href = "index6.html"
     })
+
 }
 if (document.title == "Create") {
     create.addEventListener('click', function () {
         if (fieldCreateName.value == "") {
             alert("Заполните поле")
-        } else if(fieldCreateName.value.length>40){
+        } else if (fieldCreateName.value.length > 40) {
             alert('Слишком длинное имя.')
         } else {
             let fieldsArr = JSON.parse(fields.responseText)
             let field = {
-                fieldName: ''
+                fieldName: '',
+                login: ''
             }
+            field.login = localStorage.getItem('login')
             field.fieldName = fieldCreateName.value
             fieldsArr.push(field)
             let fieldsSender = new XMLHttpRequest();
-            fieldsSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=0b2fe229595998e2de7c3c69440e5647', true);
+            fieldsSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=487a220a1b4010ff77e4980f0e0afbbe', true);
             fieldsSender.setRequestHeader("Content-type", "application/json");
             fieldsSender.send(JSON.stringify(fieldsArr));
             fieldsSender.addEventListener('readystatechange', function () {
@@ -203,7 +214,7 @@ ready.send();
 if (document.title == "Game") {
     loseButton.addEventListener('click', function () {
         localStorage.setItem('enterGame', 0)
-        localStorage.setItem('correct',0)
+        localStorage.setItem('correct', 0)
         window.location.href = 'index3.html';
     })
     document.addEventListener('click', function (e) {
@@ -242,6 +253,7 @@ if (document.title == "Game") {
                 }
             })
         } else {
+            localStorage.setItem('correct', 0)
             alert('Ошибка в расстановке кораблей')
         }
 
@@ -435,7 +447,7 @@ function chekBoats(gameFlag) {
                 if (chekedArr.includes((i + 1) * 10 + j) && j == 9) {
                     if (chekedArr.includes((i + 2) * 10 + j)) {
                         if (chekedArr.includes((i + 3) * 10 + j)) {
-                            if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
+                            if (chekedArr.includes(i * 10 + j - 1)) {
                                 nearby = false
                             }
                             if (chekedArr.includes((i + 1) * 10 + j - 1)) {
@@ -465,48 +477,80 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                if (chekedArr.includes(i * 10 + j + 1) && j != 0 && j != 9) {
+                if (chekedArr.includes(i * 10 + j + 1) && i != 0 && i != 9) {
                     if (chekedArr.includes(i * 10 + j + 2)) {
                         if (chekedArr.includes(i * 10 + j + 3)) {
-                            if (chekedArr.includes((i + 1) * 10 + j) || chekedArr.includes((i - 1) * 10 + j)) {
+                            if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i - 1) * 10 + j - 1)) {
                                 nearby = false
                             }
-                            if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i - 1) * 10 + j + 1)) {
+                            if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i - 1) * 10 + j - 1)) {
                                 nearby = false
                             }
-                            if (chekedArr.includes((i + 1) * 10 + j + 2) || chekedArr.includes((i - 1) * 10 + j + 2)) {
+                            if (chekedArr.includes((i + 1) * 10 + j + 2) || chekedArr.includes((i - 1) * 10 + j - 2)) {
                                 nearby = false
                             }
-                            if (chekedArr.includes((i + 1) * 10 + j + 3) || chekedArr.includes((i - 1) * 10 + j + 3)) {
+                            if (chekedArr.includes((i + 1) * 10 + j + 3) || chekedArr.includes((i - 1) * 10 + j - 3)) {
                                 nearby = false
                             }
                         }
-                        if (chekedArr.includes((i + 1) * 10 + j) || chekedArr.includes((i - 1) * 10 + j)) {
+                        if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i - 1) * 10 + j - 1)) {
                             nearby = false
                         }
-                        if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i - 1) * 10 + j + 1)) {
+                        if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i - 1) * 10 + j - 1)) {
                             nearby = false
                         }
-                        if (chekedArr.includes((i + 1) * 10 + j + 2) || chekedArr.includes((i - 1) * 10 + j + 2)) {
+                        if (chekedArr.includes((i + 1) * 10 + j + 2) || chekedArr.includes((i - 1) * 10 + j - 2)) {
                             nearby = false
                         }
                     }
-                    if (chekedArr.includes((i + 1) * 10 + j) || chekedArr.includes((i - 1) * 10 + j)) {
+                    if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i - 1) * 10 + j - 1)) {
                         nearby = false
                     }
-                    if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i - 1) * 10 + j + 1)) {
-                        nearby = false
-                    }
-                }
-                if (i != 0 && j != 9 && j != 0 && j != 9) {
-                    if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i + 1) * 10 + j - 1)) {
+                    if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i - 1) * 10 + j - 1)) {
                         nearby = false
                     }
                 }
+                if (chekedArr.includes(i * 10 + j + 1) && i == 9) {
+                    if (chekedArr.includes(i * 10 + j + 2)) {
+                        if (chekedArr.includes(i * 10 + j + 3)) {
+                            if (chekedArr.includes((i + 1) * 10 + j - 1)) {
+                                nearby = false
+                            }
+                            if (chekedArr.includes((i + 1) * 10 + j - 1)) {
+                                nearby = false
+                            }
+                            if (chekedArr.includes((i + 1) * 10 + j - 2)) {
+                                nearby = false
+                            }
+                            if (chekedArr.includes((i + 1) * 10 + j - 3)) {
+                                nearby = false
+                            }
+                        }
+                        if (chekedArr.includes((i + 1) * 10 + j - 1)) {
+                            nearby = false
+                        }
+                        if (chekedArr.includes((i + 1) * 10 + j - 1)) {
+                            nearby = false
+                        }
+                        if (chekedArr.includes((i + 1) * 10 + j - 2)) {
+                            nearby = false
+                        }
+                    }
+                    if (chekedArr.includes((i + 1) * 10 + j - 1)) {
+                        nearby = false
+                    }
+                    if (chekedArr.includes((i + 1) * 10 + j - 1)) {
+                        nearby = false
+                    }
+                }
+
             }
+            console.log(nearby)
+
         }
     }
     console.log(onefieldboat, twofieldboat, treefieldboat, fourfieldboat)
+    console.log(chekedArr)
     console.log(nearFlag)
     console.log(nearby)
     if (sum == 20) {
