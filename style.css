@@ -77,7 +77,6 @@ footer {
 }
 
 .CreateField {
-    margin-top: 110px;
     width: auto;
     padding: 5px;
     cursor: pointer;
@@ -100,7 +99,9 @@ footer {
     border: 1px solid grey;
     margin-top: 5px;
 }
-
+.div1{
+    margin-top: 110px;
+}
 .fieldsBox {
     display: flex;
     justify-content: space-evenly;

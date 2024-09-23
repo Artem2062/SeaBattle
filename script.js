@@ -145,7 +145,6 @@ if (document.title == "Fields") {
             for (let field of fieldsArr) {
                 fieldul.innerHTML += template(field)
             }
-
         }
     })
     CreateField.addEventListener('click', function () {
