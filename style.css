@@ -195,7 +195,7 @@ footer {
 .enemyblock{
     padding-top: 20vh;
 }
-.readyButton{
+.readyButton,.readyRandomButton{
     width: 80px;
     height: 50px;
     margin-left: 5%;
