@@ -123,14 +123,15 @@ if (document.title == "Enter") {
     })
 }
 let fields = new XMLHttpRequest();
-fields.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=487a220a1b4010ff77e4980f0e0afbbe', true);
+fields.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=8f207be149447efab250ed226d7aefb0', true);
 fields.send();
 if (document.title == "Fields") {
     fields.addEventListener('readystatechange', function () {
         if (fields.readyState == 4 && fields.status == 200) {
+            let flag = true
             let fieldsArr = JSON.parse(fields.responseText)
             let templateCode = `
-                <div onclick="window.location.href='index5.html';" style="cursor: pointer;" class="fieldListElement">Название поля: {{fieldName}}</div>
+                <div onclick="window.location.href='index5.html';" style="cursor: pointer;" class="fieldListElement" id={{login}}{{count}}>Название поля: {{fieldName}}</div>
             `
             let templateCode2 = `<button id="deleteField" class="CreateField">Удалить поле</button>`
             let template = Handlebars.compile(templateCode);
@@ -140,10 +141,68 @@ if (document.title == "Fields") {
             fieldul.innerHTML = '';
             if (localStorage.getItem('status') == 'admin') {
                 fieldul2.innerHTML += template2()
-                localStorage.setItem('fieldsAdd', 1)
+                deleteField.addEventListener('click', function () {
+                    flag = false
+                    let templateCode3 = `
+                        <div style="cursor: pointer;" class="fieldListElement" id={{login}}{{count}}>Название поля: {{fieldName}}</div>
+                    `
+                    let templateCode4 = `<button id="cancelDeleteField" class="CreateField">Отмена</button>`
+                    let template3 = Handlebars.compile(templateCode3);
+                    let template4 = Handlebars.compile(templateCode4);
+                    let fieldul4 = document.querySelector('#buttons');
+                    let fieldul3 = document.querySelector('#fieldsUl');
+                    fieldul.innerHTML = '';
+                    fieldul2.innerHTML += template4()
+                    for (let fiel of fieldsArr) {
+                        fieldul3.innerHTML += template3(fiel)
+                    }
+                    fieldul3.addEventListener('click', function (e) {
+                        for (let i = 0; i < fieldsArr.length; i++) {
+                            if (e.target.id == fieldsArr[i].login + fieldsArr[i].count) {
+                                fieldsArr.splice(i, 1)
+                                let fieldsSender = new XMLHttpRequest();
+                                fieldsSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=8f207be149447efab250ed226d7aefb0', true);
+                                fieldsSender.setRequestHeader("Content-type", "application/json");
+                                fieldsSender.send(JSON.stringify(fieldsArr));
+                                fieldsSender.addEventListener('readystatechange', function () {
+                                    if (fieldsSender.readyState == 4) {
+                                        if (fieldsSender.status == 200) {
+                                            alert('Поле успешно удалено!');
+                                            fieldul.innerHTML = '';
+                                            for (let fiel of fieldsArr) {
+                                                fieldul3.innerHTML += template3(fiel)
+                                            }
+                                        } else {
+                                            alert('Ошибка удаления. Попробуйте еще раз.');
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    })
+                    cancelDeleteField.addEventListener('click', function () {
+                        flag = true
+                        let templateCode = `
+                            <div onclick="window.location.href='index5.html';" style="cursor: pointer;" class="fieldListElement" id={{login}}{{count}}>Название поля: {{fieldName}}</div>
+                        `
+                        let templateCode2 = `<button id="deleteField" class="CreateField">Удалить поле</button>`
+                        let template = Handlebars.compile(templateCode);
+                        let template2 = Handlebars.compile(templateCode2);
+                        let fieldul2 = document.querySelector('#buttons');
+                        let fieldul = document.querySelector('#fieldsUl');
+                        fieldul.innerHTML = '';
+                        fieldul2.innerHTML = '';
+                        fieldul2.innerHTML += template2()
+                        for (let field of fieldsArr) {
+                            fieldul.innerHTML += template(field)
+                        }
+                    })
+                })
             }
-            for (let field of fieldsArr) {
-                fieldul.innerHTML += template(field)
+            if (flag == true) {
+                for (let field of fieldsArr) {
+                    fieldul.innerHTML += template(field)
+                }
             }
         }
     })
@@ -162,13 +221,15 @@ if (document.title == "Create") {
             let fieldsArr = JSON.parse(fields.responseText)
             let field = {
                 fieldName: '',
-                login: ''
+                login: '',
+                count: ''
             }
             field.login = localStorage.getItem('login')
             field.fieldName = fieldCreateName.value
+            field.count = fieldsArr.length + 1
             fieldsArr.push(field)
             let fieldsSender = new XMLHttpRequest();
-            fieldsSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=487a220a1b4010ff77e4980f0e0afbbe', true);
+            fieldsSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=8f207be149447efab250ed226d7aefb0', true);
             fieldsSender.setRequestHeader("Content-type", "application/json");
             fieldsSender.send(JSON.stringify(fieldsArr));
             fieldsSender.addEventListener('readystatechange', function () {
@@ -211,8 +272,8 @@ let ready = new XMLHttpRequest();
 ready.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=77b9447533d064e056a4996a3459df8c', true);
 ready.send();
 if (document.title == "Game") {
-    if (performance.navigation.type == performance.navigation.TYPE_RELOAD){
-        localStorage.setItem('correct',0)
+    if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+        localStorage.setItem('correct', 0)
     }
     loseButton.addEventListener('click', function () {
         localStorage.setItem('enterGame', 0)
@@ -380,7 +441,7 @@ function chekBoats(gameFlag) {
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             if (chekedArr.includes(i * 10 + j)) {
-                if (chekedArr.includes((i + 1) * 10 + j)&&j!=0&&j!=9) {
+                if (chekedArr.includes((i + 1) * 10 + j) && j != 0 && j != 9) {
                     if (chekedArr.includes((i + 2) * 10 + j)) {
                         if (chekedArr.includes((i + 3) * 10 + j)) {
                             if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
@@ -413,10 +474,10 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                if (chekedArr.includes((i+1) * 10)&&j==0) {
-                    if (chekedArr.includes((i + 2) * 10 )) {
-                        if (chekedArr.includes((i + 3) * 10 )) {
-                            if (chekedArr.includes(i * 10  + 1)) {
+                if (chekedArr.includes((i + 1) * 10) && j == 0) {
+                    if (chekedArr.includes((i + 2) * 10)) {
+                        if (chekedArr.includes((i + 3) * 10)) {
+                            if (chekedArr.includes(i * 10 + 1)) {
                                 nearby = false
                             }
                             if (chekedArr.includes((i + 1) * 10 + 1)) {
@@ -425,7 +486,7 @@ function chekBoats(gameFlag) {
                             if (chekedArr.includes((i + 2) * 10 + 1)) {
                                 nearby = false
                             }
-                            if (chekedArr.includes((i + 3) * 10+ 1)) {
+                            if (chekedArr.includes((i + 3) * 10 + 1)) {
                                 nearby = false
                             }
                         }
@@ -446,8 +507,8 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                
-                if (chekedArr.includes((i+1) * 10 + j)&&j==9) {
+
+                if (chekedArr.includes((i + 1) * 10 + j) && j == 9) {
                     if (chekedArr.includes((i + 2) * 10 + j)) {
                         if (chekedArr.includes((i + 3) * 10 + j)) {
                             if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
@@ -480,7 +541,7 @@ function chekBoats(gameFlag) {
                         nearby = false
                     }
                 }
-                if (i != 0 && j != 9&&j!=0&&j!=9) {
+                if (i != 0 && j != 9 && j != 0 && j != 9) {
                     if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i + 1) * 10 + j - 1)) {
                         nearby = false
                     }
