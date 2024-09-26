@@ -191,6 +191,7 @@ footer {
 }
 .mineblock{
     padding-top: 20vh;
+    z-index: 10;
 }
 .enemyblock{
     padding-top: 20vh;
@@ -234,7 +235,7 @@ footer {
         padding-top: 35vh;
         align-items: center;
         margin-left: auto;   
-        
+        z-index: 10;
     }
 
     .enemyblock{
@@ -274,6 +275,7 @@ footer {
         padding-top: 40vh;
         align-items: center;
         margin-left: auto;   
+        z-index: 10;
     }
 
     .enemyblock{
