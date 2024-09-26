@@ -124,15 +124,21 @@ if (document.title == "Enter") {
     })
 }
 let fields = new XMLHttpRequest();
-fields.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=8f207be149447efab250ed226d7aefb0', true);
+fields.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=dcba7a013bbe1c3adce4d43c8e87df22', true);
 fields.send();
 if (document.title == "Fields") {
+    randomButton.addEventListener('click', function () {
+        localStorage.setItem('randomeGame', 1)
+    })
+    document.addEventListener('click', function (e) {
+        localStorage.setItem('fieldName', e.target.id)
+    })
     fields.addEventListener('readystatechange', function () {
         if (fields.readyState == 4 && fields.status == 200) {
             let flag = true
             let fieldsArr = JSON.parse(fields.responseText)
             let templateCode = `
-                <div onclick="window.location.href='index5.html';" style="cursor: pointer;" class="fieldListElement" id={{login}}{{count}}>Название поля: {{fieldName}}</div>
+                <div onclick="window.location.href='index5.html';" style="cursor: pointer;" class="fieldListElement" id={{creator}}{{count}}>Название поля: {{fieldName}}</div>
             `
             let templateCode2 = `<button id="deleteField" class="CreateField">Удалить поле</button>`
             let template = Handlebars.compile(templateCode);
@@ -145,7 +151,7 @@ if (document.title == "Fields") {
                 deleteField.addEventListener('click', function () {
                     flag = false
                     let templateCode3 = `
-                        <div style="cursor: pointer;" class="fieldListElement" id={{login}}{{count}}>Название поля: {{fieldName}}</div>
+                        <div style="cursor: pointer;" class="fieldListElement" id={{creator}}{{count}}>Название поля: {{fieldName}}</div>
                     `
                     let templateCode4 = `<button id="cancelDeleteField" class="CreateField">Отмена</button>`
                     let template3 = Handlebars.compile(templateCode3);
@@ -159,10 +165,10 @@ if (document.title == "Fields") {
                     }
                     fieldul3.addEventListener('click', function (e) {
                         for (let i = 0; i < fieldsArr.length; i++) {
-                            if (e.target.id == fieldsArr[i].login + fieldsArr[i].count) {
+                            if (e.target.id == fieldsArr[i].creator + fieldsArr[i].count) {
                                 fieldsArr.splice(i, 1)
                                 let fieldsSender = new XMLHttpRequest();
-                                fieldsSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=8f207be149447efab250ed226d7aefb0', true);
+                                fieldsSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=dcba7a013bbe1c3adce4d43c8e87df22', true);
                                 fieldsSender.setRequestHeader("Content-type", "application/json");
                                 fieldsSender.send(JSON.stringify(fieldsArr));
                                 fieldsSender.addEventListener('readystatechange', function () {
@@ -184,7 +190,7 @@ if (document.title == "Fields") {
                     cancelDeleteField.addEventListener('click', function () {
                         flag = true
                         let templateCode = `
-                            <div onclick="window.location.href='index5.html';" style="cursor: pointer;" class="fieldListElement" id={{login}}{{count}}>Название поля: {{fieldName}}</div>
+                            <div onclick="window.location.href='index5.html';" style="cursor: pointer;" class="fieldListElement" id={{creator}}{{count}}>Название поля: {{fieldName}}</div>
                         `
                         let templateCode2 = `<button id="deleteField" class="CreateField">Удалить поле</button>`
                         let template = Handlebars.compile(templateCode);
@@ -222,15 +228,18 @@ if (document.title == "Create") {
             let fieldsArr = JSON.parse(fields.responseText)
             let field = {
                 fieldName: '',
+                creator: '',
                 login: '',
+                loginsecond: '',
+                players: '0',
                 count: ''
             }
-            field.login = localStorage.getItem('login')
+            field.creator = localStorage.getItem('login')
             field.fieldName = fieldCreateName.value
             field.count = fieldsArr.length + 1
             fieldsArr.push(field)
             let fieldsSender = new XMLHttpRequest();
-            fieldsSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=8f207be149447efab250ed226d7aefb0', true);
+            fieldsSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=dcba7a013bbe1c3adce4d43c8e87df22', true);
             fieldsSender.setRequestHeader("Content-type", "application/json");
             fieldsSender.send(JSON.stringify(fieldsArr));
             fieldsSender.addEventListener('readystatechange', function () {
@@ -271,7 +280,7 @@ if (document.title == "Gamefield") {
     })
 }
 let game = new XMLHttpRequest();
-game.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=32409f9ddcb08053811c6954b5feb486', true);
+game.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=027611a0e220b081bf68b3353b611a42', true);
 game.send();
 if (document.title == "Game") {
     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
@@ -279,6 +288,7 @@ if (document.title == "Game") {
         localStorage.setItem('startClicked', 0)
     }
     loseButton.addEventListener('click', function () {
+        let fieldsArr = JSON.parse(fields.responseText)
         localStorage.setItem('enterGame', 0)
         localStorage.setItem('correct', 0)
         localStorage.setItem('startClicked', 0)
@@ -289,280 +299,6 @@ if (document.title == "Game") {
             if (localStorage.getItem('correct') == 0) {
                 e.target.classList.toggle('fieldElement2')
             }
-        }
-    })
-    randomButton.addEventListener('click', function () {
-        let boatsArr = {}
-        let chekedArr = []
-        let nearFlag = true
-        let nearby = true
-        let onefieldboat = 0
-        let twofieldboat = 0
-        let treefieldboat = 0
-        let fourfieldboat = 0
-        let sum = 0
-        let arr = document.getElementsByClassName('fieldElement1')
-        for (let i = 0; i < 10; i++) {
-            boatsArr[i] = {};
-        }
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 10; j++) {
-                if (arr[i * 10 + j].classList.value.length > 20) {
-                    boatsArr[i][j] = 1;
-                    sum += 1;
-                } else {
-                    boatsArr[i][j] = 0;
-                }
-            }
-        }
-        boatsArr[10] = localStorage.getItem('login')
-        boatsArr[11] = true
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 10; j++) {
-                if ((boatsArr[i][j] == 1) && (chekedArr.includes(i * 10 + j) == false)) {
-                    if (i < 9) {
-                        if (boatsArr[i + 1][j] == 1 && chekedArr.includes((i + 1) * 10 + j) == false && i < 8) {
-                            if (boatsArr[i + 2][j] == 1 && chekedArr.includes((i + 2) * 10 + j) == false && i < 7) {
-                                if (boatsArr[i + 3][j] == 1 && chekedArr.includes((i + 3) * 10 + j) == false) {
-                                    if (i < 6 && boatsArr[i + 4][j] == 1 && chekedArr.includes((i + 4) * 10 + j) == false) {
-                                        nearFlag = false
-                                    } else {
-                                        fourfieldboat += 1
-                                        chekedArr[chekedArr.length] = i * 10 + j
-                                        chekedArr[chekedArr.length] = (i + 1) * 10 + j
-                                        chekedArr[chekedArr.length] = (i + 2) * 10 + j
-                                        chekedArr[chekedArr.length] = (i + 3) * 10 + j
-                                    }
-                                } else {
-                                    treefieldboat += 1
-                                    chekedArr[chekedArr.length] = i * 10 + j
-                                    chekedArr[chekedArr.length] = (i + 1) * 10 + j
-                                    chekedArr[chekedArr.length] = (i + 2) * 10 + j
-                                }
-                            } else if (boatsArr[i + 2][j] == 1 && chekedArr.includes((i + 1) * 10 + j) == false && i == 7) {
-                                treefieldboat += 1
-                                chekedArr[chekedArr.length] = i * 10 + j
-                                chekedArr[chekedArr.length] = (i + 1) * 10 + j
-                                chekedArr[chekedArr.length] = (i + 2) * 10 + j
-                            } else {
-                                twofieldboat += 1
-                                chekedArr[chekedArr.length] = i * 10 + j
-                                chekedArr[chekedArr.length] = (i + 1) * 10 + j
-                            }
-                        } else if (boatsArr[i + 1][j] == 1 && chekedArr.includes((i + 1) * 10 + j) == false && i == 8) {
-                            twofieldboat += 1
-                            chekedArr[chekedArr.length] = i * 10 + j
-                            chekedArr[chekedArr.length] = (i + 1) * 10 + j
-                        } else if (chekedArr.includes(i * 10 + j) == false && j == 9) {
-                            onefieldboat += 1
-                            chekedArr[chekedArr.length] = i * 10 + j
-                        }
-                    }
-                    if (j < 9) {
-                        if (boatsArr[i][j + 1] == 1 && chekedArr.includes(i * 10 + j + 1) == false && (j < 8)) {
-                            if (boatsArr[i][j + 2] == 1 && chekedArr.includes(i * 10 + j + 2) == false && (j < 7)) {
-                                if (boatsArr[i][j + 3] == 1 && chekedArr.includes(i * 10 + j + 3) == false) {
-                                    if (j < 6 && boatsArr[i][j + 4] == 1 && chekedArr.includes(i * 10 + j + 4) == false) {
-                                        nearFlag = false
-                                    } else {
-                                        fourfieldboat += 1
-                                        chekedArr[chekedArr.length] = i * 10 + j
-                                        chekedArr[chekedArr.length] = i * 10 + j + 1
-                                        chekedArr[chekedArr.length] = i * 10 + j + 2
-                                        chekedArr[chekedArr.length] = i * 10 + j + 3
-                                    }
-                                } else {
-                                    treefieldboat += 1
-                                    chekedArr[chekedArr.length] = i * 10 + j
-                                    chekedArr[chekedArr.length] = i * 10 + j + 1
-                                    chekedArr[chekedArr.length] = i * 10 + j + 2
-                                }
-                            } else if (boatsArr[i][j + 2] == 1 && chekedArr.includes(i * 10 + j + 1) == false && j == 7) {
-                                treefieldboat += 1
-                                chekedArr[chekedArr.length] = i * 10 + j
-                                chekedArr[chekedArr.length] = i * 10 + j + 1
-                                chekedArr[chekedArr.length] = i * 10 + j + 2
-                            } else {
-                                twofieldboat += 1
-                                chekedArr[chekedArr.length] = i * 10 + j
-                                chekedArr[chekedArr.length] = i * 10 + j + 1
-                            }
-                        } else if (boatsArr[i][j + 1] == 1 && chekedArr.includes(i * 10 + j + 1) == false && j == 8) {
-                            twofieldboat += 1
-                            chekedArr[chekedArr.length] = i * 10 + j
-                            chekedArr[chekedArr.length] = i * 10 + j + 1
-                        } else if (chekedArr.includes(i * 10 + j) == false) {
-                            onefieldboat += 1
-                            chekedArr[chekedArr.length] = i * 10 + j
-                        }
-                    }
-                    if (i == 9 && j == 9 && chekedArr.includes(99) == false) {
-                        onefieldboat += 1
-                        chekedArr[chekedArr.length] = i * 10 + j
-                    }
-
-                }
-
-            }
-        }
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 10; j++) {
-                if (chekedArr.includes(i * 10 + j)) {
-                    if (chekedArr.includes((i + 1) * 10 + j) && j != 0 && j != 9) {
-                        if (chekedArr.includes((i + 2) * 10 + j)) {
-                            if (chekedArr.includes((i + 3) * 10 + j)) {
-                                if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
-                                    nearby = false
-                                }
-                                if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i + 1) * 10 + j - 1)) {
-                                    nearby = false
-                                }
-                                if (chekedArr.includes((i + 2) * 10 + j + 1) || chekedArr.includes((i + 2) * 10 + j - 1)) {
-                                    nearby = false
-                                }
-                                if (chekedArr.includes((i + 3) * 10 + j + 1) || chekedArr.includes((i + 3) * 10 + j - 1)) {
-                                    nearby = false
-                                }
-                            }
-                            if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
-                                nearby = false
-                            }
-                            if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i + 1) * 10 + j - 1)) {
-                                nearby = false
-                            }
-                            if (chekedArr.includes((i + 2) * 10 + j + 1) || chekedArr.includes((i + 2) * 10 + j - 1)) {
-                                nearby = false
-                            }
-                        }
-                        if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
-                            nearby = false
-                        }
-                        if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i + 1) * 10 + j - 1)) {
-                            nearby = false
-                        }
-                    }
-                    if (chekedArr.includes((i + 1) * 10) && j == 0) {
-                        if (chekedArr.includes((i + 2) * 10)) {
-                            if (chekedArr.includes((i + 3) * 10)) {
-                                if (chekedArr.includes(i * 10 + 1)) {
-                                    nearby = false
-                                }
-                                if (chekedArr.includes((i + 1) * 10 + 1)) {
-                                    nearby = false
-                                }
-                                if (chekedArr.includes((i + 2) * 10 + 1)) {
-                                    nearby = false
-                                }
-                                if (chekedArr.includes((i + 3) * 10 + 1)) {
-                                    nearby = false
-                                }
-                            }
-                            if (chekedArr.includes(i * 10 + 1)) {
-                                nearby = false
-                            }
-                            if (chekedArr.includes((i + 1) * 10 + 1)) {
-                                nearby = false
-                            }
-                            if (chekedArr.includes((i + 2) * 10 + 1)) {
-                                nearby = false
-                            }
-                        }
-                        if (chekedArr.includes(i * 10 + 1)) {
-                            nearby = false
-                        }
-                        if (chekedArr.includes((i + 1) * 10 + 1)) {
-                            nearby = false
-                        }
-                    }
-
-                    if (chekedArr.includes((i + 1) * 10 + j) && j == 9) {
-                        if (chekedArr.includes((i + 2) * 10 + j)) {
-                            if (chekedArr.includes((i + 3) * 10 + j)) {
-                                if (chekedArr.includes(i * 10 + j + 1) || chekedArr.includes(i * 10 + j - 1)) {
-                                    nearby = false
-                                }
-                                if (chekedArr.includes((i + 1) * 10 + j - 1)) {
-                                    nearby = false
-                                }
-                                if (chekedArr.includes((i + 2) * 10 + j - 1)) {
-                                    nearby = false
-                                }
-                                if (chekedArr.includes((i + 3) * 10 + j - 1)) {
-                                    nearby = false
-                                }
-                            }
-                            if (chekedArr.includes(i * 10 + j - 1)) {
-                                nearby = false
-                            }
-                            if (chekedArr.includes((i + 1) * 10 + j - 1)) {
-                                nearby = false
-                            }
-                            if (chekedArr.includes((i + 2) * 10 + j - 1)) {
-                                nearby = false
-                            }
-                        }
-                        if (chekedArr.includes(i * 10 + j - 1)) {
-                            nearby = false
-                        }
-                        if (chekedArr.includes((i + 1) * 10 + j - 1)) {
-                            nearby = false
-                        }
-                    }
-                    if (i != 0 && j != 9 && j != 0 && j != 9) {
-                        if (chekedArr.includes((i + 1) * 10 + j + 1) || chekedArr.includes((i + 1) * 10 + j - 1)) {
-                            nearby = false
-                        }
-                    }
-                }
-            }
-        }
-        if (onefieldboat == 4) {
-            if (twofieldboat == 3) {
-                if (treefieldboat == 2) {
-                    if (fourfieldboat == 1) {
-                        if (nearFlag == true) {
-                            if (nearby == true) {
-                                alert('Поиск соперника')
-                                let gameArr = JSON.parse(game.responseText)
-                                let flag5=true
-                                if(flag5==true){
-                                    gameArr = JSON.parse(game.responseText)
-                                    for (let i = 0; i < gameArr.length; i++) {
-                                        if (gameArr[i][11] == true) {
-                                            gameArr.splice(i,1)
-                                            flag5=false
-                                            break
-                                        }
-                                    }
-                                    
-                                }
-                                if(flag5==false){
-                                    console.log(gameArr)
-                                    let gameSender2 = new XMLHttpRequest();
-                                    gameSender2.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=32409f9ddcb08053811c6954b5feb486', true);
-                                    gameSender2.setRequestHeader("Content-type", "application/json");
-                                    gameSender2.send(JSON.stringify(gameArr));
-                                    alert('Соперник найден')
-                                } else {
-                                    alert('Соперников пока нет')
-                                }
-                            } else {
-                                alert('Некоторые корабли стоят слишком близко')
-                            }
-                        } else {
-                            alert('Некоторые корабли больше пяти клеток')
-                        }
-                    } else {
-                        alert('Неверное количество четырехпалубных кораблей')
-                    }
-                } else {
-                    alert('Неверное количество трёхпалубных кораблей')
-                }
-            } else {
-                alert('Неверное количество двухпалубных кораблей')
-            }
-        } else {
-            alert('Неверное количество однопалубных кораблей')
         }
     })
     readyButton.addEventListener('click', function () {
@@ -591,6 +327,7 @@ if (document.title == "Game") {
         }
         boatsArr[10] = localStorage.getItem('login')
         boatsArr[11] = true
+
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
                 if ((boatsArr[i][j] == 1) && (chekedArr.includes(i * 10 + j) == false)) {
@@ -797,21 +534,81 @@ if (document.title == "Game") {
                         if (nearFlag == true) {
                             if (nearby == true) {
                                 let gameArr = JSON.parse(game.responseText)
-                                console.log(gameArr)
-                                gameArr.push(boatsArr)
-                                console.log(gameArr)
-                                let gameSender = new XMLHttpRequest();
-                                gameSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=32409f9ddcb08053811c6954b5feb486', true);
-                                gameSender.setRequestHeader("Content-type", "application/json");
-                                gameSender.send(JSON.stringify(gameArr));
-                                gameSender.addEventListener('readystatechange', function () {
-                                    if (gameSender.readyState == 4 && gameSender.status == 200) {
-                                        readyButton.style.visibility = 'hidden'
-                                        localStorage.setItem('correct', 1)
-                                        localStorage.setItem('startClicked', 1)
-                                        alert('Ожидайте соперника, не покидайте страницу.')
+                                let fieldsArr = JSON.parse(fields.responseText)
+                                let flagplayers = true
+                                let flagsend = false
+                                for (let field of fieldsArr) {
+                                    if (field.creator + field.count == localStorage.getItem('fieldName') && field.login != localStorage.getItem('login')) {
+                                        if (field.players == 0 && flagplayers == true) {
+                                            alert('Ожидайте соперника.')
+                                            field.login = localStorage.getItem('login')
+                                            field.players = 1
+                                            flagplayers = false
+                                            let a = setInterval(function () {
+                                                let fieldcheck = new XMLHttpRequest();
+                                                fieldcheck.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=dcba7a013bbe1c3adce4d43c8e87df22', true);
+                                                fieldcheck.send();
+                                                fieldcheck.addEventListener('readystatechange', function () {
+                                                    if (fieldcheck.readyState == 4 && fieldcheck.status == 200) {
+                                                        let fieldsArr2 = JSON.parse(fieldcheck.responseText)
+                                                        for (let field of fieldsArr2) {
+                                                            if (field.creator + field.count == localStorage.getItem('fieldName')) {
+                                                                if (field.players == 2) {
+                                                                    gameArr.push(boatsArr)
+                                                                    let gameSender2 = new XMLHttpRequest();
+                                                                    gameSender2.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=027611a0e220b081bf68b3353b611a42', true);
+                                                                    gameSender2.setRequestHeader("Content-type", "application/json");
+                                                                    gameSender2.send(JSON.stringify(gameArr));
+                                                                    gameSender2.addEventListener('readystatechange', function () {
+                                                                        if (gameSender2.readyState == 4 && gameSender2.status == 200) {
+                                                                            readyButton.style.visibility = 'hidden'
+                                                                            localStorage.setItem('correct', 1)
+                                                                            localStorage.setItem('startClicked', 1)
+                                                                        }
+                                                                    })
+                                                                    clearInterval(a)
+                                                                    alert('противник найден')
+                                                                    break
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                })
+                                            }, 2000)
+
+                                        }
+                                        if (field.players == 1 && flagplayers == true) {
+                                            field.loginsecond = localStorage.getItem('login')
+                                            field.players = 2
+                                            flagplayers = false
+                                            flagsend = true
+                                            gameArr.push(boatsArr)
+                                            let gameSender = new XMLHttpRequest();
+                                            gameSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=027611a0e220b081bf68b3353b611a42', true);
+                                            gameSender.setRequestHeader("Content-type", "application/json");
+                                            gameSender.send(JSON.stringify(gameArr));
+                                            gameSender.addEventListener('readystatechange', function () {
+                                                if (gameSender.readyState == 4 && gameSender.status == 200) {
+                                                    readyButton.style.visibility = 'hidden'
+                                                    localStorage.setItem('correct', 1)
+                                                    localStorage.setItem('startClicked', 1)
+                                                }
+                                            })
+                                            alert('противник найден')
+
+                                        }
+                                        if (field.players == 2 && flagplayers == true) {
+                                            flagplayers = false
+                                            alert('поле уже заняли')
+                                        }
+                                        let fieldsSender = new XMLHttpRequest();
+                                        fieldsSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=dcba7a013bbe1c3adce4d43c8e87df22', true);
+                                        fieldsSender.setRequestHeader("Content-type", "application/json");
+                                        fieldsSender.send(JSON.stringify(fieldsArr));
+                                        break
                                     }
-                                })
+                                }
+
                             } else {
                                 alert('Некоторые корабли стоят слишком близко')
                             }
