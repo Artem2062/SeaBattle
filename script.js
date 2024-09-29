@@ -391,7 +391,7 @@ if (document.title == "Game") {
                 e.target.classList.toggle('fieldElement2')
             }
         }
-        if (localStorage.getItem('gameStarted') == 1&&localStorage.getItem('timer')==0) {
+        if (localStorage.getItem('gameStarted') == 1) {
             let t = setInterval(function () {
                 let gamestep = new XMLHttpRequest();
                 gamestep.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
