@@ -189,6 +189,12 @@ footer {
     height: 78px;
     background: red;
 }
+.fieldElement3{
+    width: 78px;
+    margin: 1px 1px 1px 1px;
+    height: 78px;
+    background: rgb(0, 68, 255);
+}
 .mineblock{
     padding-top: 20vh;
     z-index: 10;
