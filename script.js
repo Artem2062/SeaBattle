@@ -281,7 +281,7 @@ if (document.title == "Gamefield") {
     })
 }
 let game = new XMLHttpRequest();
-game.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
+game.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
 game.send();
 if (document.title == "Game") {
     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
@@ -290,100 +290,111 @@ if (document.title == "Game") {
         localStorage.setItem('startClicked', 0)
     }
     loseButton.addEventListener('click', function () {
-        let game2 = new XMLHttpRequest();
-        game2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
-        game2.send();
-        game2.addEventListener('readystatechange', function () {
-            if (game2.readyState == 4) {
-                if (game2.status == 200) {
-                    let gameArr4 = JSON.parse(game2.responseText)
-                    for (let i = 0; i < gameArr4.length; i++) {
-                        if (gameArr4[i][10] == localStorage.getItem('login')) {
-                            gameArr4.splice(i, 1)
-                            console.log(gameArr4)
-                            let gameSender4 = new XMLHttpRequest();
-                            gameSender4.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
-                            gameSender4.setRequestHeader("Content-type", "application/json");
-                            gameSender4.send(JSON.stringify(gameArr4));
-                            gameSender4.addEventListener('readystatechange', function () {
-                                if (gameSender4.readyState == 4) {
-                                    if (gameSender4.status == 200) {
-                                        localStorage.setItem('enterGame', 0)
-                                        localStorage.setItem('correct', 0)
-                                        localStorage.setItem('gameStarted', 0)
-                                        localStorage.setItem('startClicked', 0)
-                                        window.location.href = 'index3.html';
+        if (localStorage.getItem('gameStarted') == 1) {
+            let game2 = new XMLHttpRequest();
+            game2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
+            game2.send();
+            game2.addEventListener('readystatechange', function () {
+                if (game2.readyState == 4) {
+                    if (game2.status == 200) {
+                        let gameArr4 = JSON.parse(game2.responseText)
+                        for (let i = 0; i < gameArr4.length; i++) {
+                            if (gameArr4[i][10] == localStorage.getItem('login')) {
+                                gameArr4.splice(i, 1)
+                                console.log(gameArr4)
+                                let gameSender4 = new XMLHttpRequest();
+                                gameSender4.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
+                                gameSender4.setRequestHeader("Content-type", "application/json");
+                                gameSender4.send(JSON.stringify(gameArr4));
+                                gameSender4.addEventListener('readystatechange', function () {
+                                    if (gameSender4.readyState == 4) {
+                                        if (gameSender4.status == 200) {
+                                            localStorage.setItem('enterGame', 0)
+                                            localStorage.setItem('correct', 0)
+                                            localStorage.setItem('gameStarted', 0)
+                                            localStorage.setItem('startClicked', 0)
+                                            window.location.href = 'index3.html';
+                                        }
                                     }
-                                }
-                            })
-                            break
+                                })
+                                break
+                            }
                         }
                     }
                 }
-            }
-        })
+            })
+        } else {
+            localStorage.setItem('enterGame', 0)
+            localStorage.setItem('correct', 0)
+            localStorage.setItem('gameStarted', 0)
+            localStorage.setItem('startClicked', 0)
+            window.location.href = 'index3.html';
+        }
+
     })
     if (localStorage.getItem('gameStarted') == 1) {
         let tr = setInterval(function () {
             let gamestep2 = new XMLHttpRequest();
-                gamestep2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
-                gamestep2.send();
-                gamestep2.addEventListener('readystatechange', function () {
-                    if (gamestep2.readyState == 4 && gamestep2.status == 200) {
-                        let gameArr = JSON.parse(gamestep2.responseText)
-                        for (let elem of gameArr) {
-                            if (elem[10] == localStorage.getItem('mylogin')) {
-                                if (elem[11] == true) {
-                                    if (e.target.id.slice(0, 10) == "enemyField") {
-                                        for (let element of gameArr) {
-                                            if (element[10] == localStorage.getItem('enemylogin')) {
-                                                for (let i = 0; i < 10; i++) {
-                                                    for (let j = 0; j < 10; j++) {
-                                                        let k = i * 10 + j
-                                                        if (e.target.id == 'enemyFieldPart' + k) {
-                                                            if (element[i][j] == 1) {
-                                                                e.target.classList.toggle('fieldElement2')
-                                                                element[i][j] == 2
-                                                                break
-                                                            }
-                                                            if (element[i][j] == 0) {
-                                                                e.target.classList.toggle('fieldElement3')
-                                                                element[i][j] == 3
-                                                                break
-                                                            }
+            gamestep2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
+            gamestep2.send();
+            gamestep2.addEventListener('readystatechange', function () {
+                if (gamestep2.readyState == 4 && gamestep2.status == 200) {
+                    let gameArr = JSON.parse(gamestep2.responseText)
+                    for (let elem of gameArr) {
+                        if (elem[10] == localStorage.getItem('mylogin')) {
+                            if (elem[11] == true) {
+                                if (e.target.id.slice(0, 10) == "enemyField") {
+                                    for (let element of gameArr) {
+                                        if (element[10] == localStorage.getItem('enemylogin')) {
+                                            for (let i = 0; i < 10; i++) {
+                                                for (let j = 0; j < 10; j++) {
+                                                    let k = i * 10 + j
+                                                    if (e.target.id == 'enemyFieldPart' + k) {
+                                                        if (element[i][j] == 1) {
+                                                            e.target.classList.toggle('fieldElement2')
+                                                            element[i][j] == 2
+                                                            break
+                                                        }
+                                                        if (element[i][j] == 0) {
+                                                            e.target.classList.toggle('fieldElement3')
+                                                            element[i][j] == 3
+                                                            break
                                                         }
                                                     }
                                                 }
-                                                element[11] = true
-                                                let gamestep2EnemySender = new XMLHttpRequest();
-                                                gamestep2EnemySender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
-                                                gamestep2EnemySender.setRequestHeader("Content-type", "application/json");
-                                                gamestep2EnemySender.send(JSON.stringify(gameArr));
-                                                gamestep2EnemySender.addEventListener('readystatechange', function () {
-                                                    if (gamestep2EnemySender.readyState == 4 && gamestep2EnemySender.status == 200) {
-                                                    }
-                                                })
-                                                break
                                             }
+                                            element[11] = true
+                                            let gamestep2EnemySender = new XMLHttpRequest();
+                                            gamestep2EnemySender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
+                                            gamestep2EnemySender.setRequestHeader("Content-type", "application/json");
+                                            gamestep2EnemySender.send(JSON.stringify(gameArr));
+                                            gamestep2EnemySender.addEventListener('readystatechange', function () {
+                                                if (gamestep2EnemySender.readyState == 4 && gamestep2EnemySender.status == 200) {
+                                                    alert('3')
+                                                }
+                                            })
+                                            break
                                         }
-
-                                        elem[11] = false
-                                        let gamestep2Sender = new XMLHttpRequest();
-                                        gamestep2Sender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
-                                        gamestep2Sender.setRequestHeader("Content-type", "application/json");
-                                        gamestep2Sender.send(JSON.stringify(gameArr));
-                                        gamestep2Sender.addEventListener('readystatechange', function () {
-                                            if (gamestep2Sender.readyState == 4 && gamestep2Sender.status == 200) {
-                                            }
-                                        })
-                                        break
                                     }
+
+                                    elem[11] = false
+                                    let gamestep2Sender = new XMLHttpRequest();
+                                    gamestep2Sender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
+                                    gamestep2Sender.setRequestHeader("Content-type", "application/json");
+                                    gamestep2Sender.send(JSON.stringify(gameArr));
+                                    gamestep2Sender.addEventListener('readystatechange', function () {
+                                        if (gamestep2Sender.readyState == 4 && gamestep2Sender.status == 200) {
+                                            alert('4')
+                                        }
+                                    })
+                                    break
                                 }
                             }
                         }
                     }
-                })
-        },500)
+                }
+            })
+        }, 500)
     }
     document.addEventListener('click', function (e) {
         if (e.target.id.slice(0, 9) == "fieldPart") {
@@ -391,10 +402,10 @@ if (document.title == "Game") {
                 e.target.classList.toggle('fieldElement2')
             }
         }
-        if (localStorage.getItem('gameStarted') == 1) {
+        if (localStorage.getItem('gameStarted') == 1&&e.target.id.slice(0, 10) == "enemyField") {
             let t = setInterval(function () {
                 let gamestep = new XMLHttpRequest();
-                gamestep.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
+                gamestep.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
                 gamestep.send();
                 gamestep.addEventListener('readystatechange', function () {
                     if (gamestep.readyState == 4 && gamestep.status == 200) {
@@ -412,38 +423,37 @@ if (document.title == "Game") {
                                                             if (element[i][j] == 1) {
                                                                 e.target.classList.toggle('fieldElement2')
                                                                 element[i][j] == 2
-                                                                break
                                                             }
                                                             if (element[i][j] == 0) {
                                                                 e.target.classList.toggle('fieldElement3')
                                                                 element[i][j] == 3
-                                                                break
                                                             }
                                                         }
                                                     }
                                                 }
                                                 element[11] = true
                                                 let gamestepEnemySender = new XMLHttpRequest();
-                                                gamestepEnemySender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
+                                                gamestepEnemySender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
                                                 gamestepEnemySender.setRequestHeader("Content-type", "application/json");
                                                 gamestepEnemySender.send(JSON.stringify(gameArr));
                                                 gamestepEnemySender.addEventListener('readystatechange', function () {
                                                     if (gamestepEnemySender.readyState == 4 && gamestepEnemySender.status == 200) {
-
+                                                        alert('1')
+                                                        clearInterval(t)
                                                     }
                                                 })
                                                 break
                                             }
                                         }
-
                                         elem[11] = false
                                         let gamestepSender = new XMLHttpRequest();
-                                        gamestepSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
+                                        gamestepSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
                                         gamestepSender.setRequestHeader("Content-type", "application/json");
                                         gamestepSender.send(JSON.stringify(gameArr));
                                         gamestepSender.addEventListener('readystatechange', function () {
                                             if (gamestepSender.readyState == 4 && gamestepSender.status == 200) {
-
+                                                clearInterval(t)
+                                                alert('2')
                                             }
                                         })
                                         break
@@ -723,7 +733,7 @@ if (document.title == "Game") {
                                                                         }
                                                                     }
                                                                     let fieldcheck2 = new XMLHttpRequest();
-                                                                    fieldcheck2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
+                                                                    fieldcheck2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
                                                                     fieldcheck2.send();
                                                                     fieldcheck2.addEventListener('readystatechange', function () {
                                                                         if (fieldcheck2.readyState == 4 && fieldcheck2.status == 200) {
@@ -731,7 +741,7 @@ if (document.title == "Game") {
                                                                             boatsArr[11] = true
                                                                             gameArr2.push(boatsArr)
                                                                             let gameSender2 = new XMLHttpRequest();
-                                                                            gameSender2.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
+                                                                            gameSender2.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
                                                                             gameSender2.setRequestHeader("Content-type", "application/json");
                                                                             gameSender2.send(JSON.stringify(gameArr2));
                                                                             gameSender2.addEventListener('readystatechange', function () {
@@ -739,14 +749,14 @@ if (document.title == "Game") {
                                                                                     readyButton.style.visibility = 'hidden'
                                                                                     localStorage.setItem('correct', 1)
                                                                                     localStorage.setItem('gameStarted', 1)
-                                                                                    localStorage.setItem('timer',0)
+                                                                                    localStorage.setItem('timer', 0)
                                                                                     localStorage.setItem('startClicked', 1)
                                                                                 }
                                                                             })
                                                                         }
                                                                     })
                                                                     localStorage.setItem('steps', 0)
-                                                                    localStorage.setItem('timer',0)
+                                                                    localStorage.setItem('timer', 0)
                                                                     localStorage.setItem('gameStarted', 1)
                                                                     alert('противник найден')
                                                                     clearInterval(a)
@@ -761,7 +771,7 @@ if (document.title == "Game") {
                                         }
                                         if (field.players == 1 && flagplayers == true) {
                                             let fieldcheck2 = new XMLHttpRequest();
-                                            fieldcheck2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
+                                            fieldcheck2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
                                             fieldcheck2.send();
                                             fieldcheck2.addEventListener('readystatechange', function () {
                                                 if (fieldcheck2.readyState == 4 && fieldcheck2.status == 200) {
@@ -776,14 +786,14 @@ if (document.title == "Game") {
                                                     fieldsSender2.setRequestHeader("Content-type", "application/json");
                                                     fieldsSender2.send(JSON.stringify(fieldsArr));
                                                     let gameSender = new XMLHttpRequest();
-                                                    gameSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=b59d473f94fee15423e7fbd13526456b', true);
+                                                    gameSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=78002a492faeb8674e68e6e57c88daee', true);
                                                     gameSender.setRequestHeader("Content-type", "application/json");
                                                     gameSender.send(JSON.stringify(gameArr3));
                                                     gameSender.addEventListener('readystatechange', function () {
                                                         if (gameSender.readyState == 4 && gameSender.status == 200) {
                                                             readyButton.style.visibility = 'hidden'
                                                             localStorage.setItem('correct', 1)
-                                                            localStorage.setItem('timer',1)
+                                                            localStorage.setItem('timer', 1)
                                                             localStorage.setItem('startClicked', 1)
                                                             localStorage.setItem('steps', 0)
                                                             localStorage.setItem('gameStarted', 1)
