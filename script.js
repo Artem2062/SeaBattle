@@ -1,5 +1,6 @@
 'use strict'
 let xhr = new XMLHttpRequest();
+localStorage.clear();
 xhr.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=0e8a6538b291d291d144eeb9f1a49801', true);
 xhr.send();
 function enter() {
