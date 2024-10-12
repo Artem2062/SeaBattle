@@ -1,32 +1,56 @@
 'use strict'
 let xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=0e8a6538b291d291d144eeb9f1a49801', true);
+xhr.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=46e27dd2057dbfefd9e6037ade81357b', true);
 xhr.send();
 function enter() {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-        let usersArr = JSON.parse(xhr.responseText)
-        let flag1 = true
-        for (let i in usersArr) {
-            if (usersArr[i].login == login.value && usersArr[i].password != password.value) {
-                flag1 = false
-                alert("Неверный пароль")
-                break
+    let xhr2 = new XMLHttpRequest();
+    xhr2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=46e27dd2057dbfefd9e6037ade81357b', true);
+    xhr2.send();
+    xhr2.addEventListener('readystatechange', function () {
+        if (xhr2.readyState == 4 && xhr2.status == 200) {
+            let usersArr = JSON.parse(xhr2.responseText)
+            let flag1 = true
+            for (let i in usersArr) {
+                if (usersArr[i].login == login.value && usersArr[i].password != password.value) {
+                    flag1 = false
+                    alert("Неверный пароль")
+                    break
+                }
+                if (usersArr[i].login == login.value && usersArr[i].password == password.value) {
+                    if (usersArr[i].entered == 0) {
+                        usersArr[i].entered = 1
+                        let xhrSender2 = new XMLHttpRequest();
+                        xhrSender2.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=46e27dd2057dbfefd9e6037ade81357b', true)
+                        xhrSender2.setRequestHeader("Content-type", "application/json");
+                        xhrSender2.send(JSON.stringify(usersArr));
+                        xhrSender2.addEventListener('readystatechange', function () {
+                            if (xhrSender2.readyState == 4) {
+                                if (xhrSender2.status == 200) {
+                                    flag1 = false
+                                    localStorage.setItem('status', usersArr[i].status)
+                                    localStorage.setItem('enterSeabattle', 1)
+                                    localStorage.setItem('login', login.value)
+                                    localStorage.setItem('nickname', usersArr[i].nickname)
+                                    alert("Вы успешно вошли в аккаунт")
+                                    window.location.href = 'index3.html';
+                                }
+                            }
+                        })
+                        break
+                    }
+                    if (usersArr[i].entered == 1) {
+                        flag1 = false
+                        alert("В аккаунт уже зашли")
+                    }
+                }
             }
-            if (usersArr[i].login == login.value && usersArr[i].password == password.value) {
-                flag1 = false
-                localStorage.setItem('status', usersArr[i].status)
-                localStorage.setItem('enterSeabattle', 1)
-                localStorage.setItem('login', login.value)
-                localStorage.setItem('nickname', usersArr[i].nickname)
-                alert("Вы успешно вошли в аккаунт")
-                window.location.href = 'index3.html';
-                break
-            }
+            setTimeout(function(){
+                if (flag1 == true) {
+                    alert("Такого аккаунта не существует")
+                }
+            },500)
         }
-        if (flag1 == true) {
-            alert("Такого аккаунта не существует")
-        }
-    }
+    })
 }
 function register() {
     if (xhr.readyState == 4 && xhr.status == 200) {
@@ -35,7 +59,8 @@ function register() {
             nickname: '',
             login: '',
             password: '',
-            status: 'user'
+            status: 'user',
+            entered: '0'
         }
         if (nickname.value == "" || login.value == "" || password.value == "") {
             alert("Все поля должны быть заполнены")
@@ -57,7 +82,7 @@ function register() {
                 password.value = ""
                 usersArr.push(user)
                 let xhrSender = new XMLHttpRequest();
-                xhrSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=0e8a6538b291d291d144eeb9f1a49801', true)
+                xhrSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=46e27dd2057dbfefd9e6037ade81357b', true)
                 xhrSender.setRequestHeader("Content-type", "application/json");
                 xhrSender.send(JSON.stringify(usersArr));
                 xhrSender.addEventListener('readystatechange', function () {
@@ -99,8 +124,33 @@ if (localStorage.getItem('enterSeabattle') == 1 && (document.title == "Fields" |
     head.innerHTML = '';
     head.innerHTML = template()
     exitButton.addEventListener('click', function () {
-        localStorage.setItem('enterSeabattle', 0)
-        window.location.href = 'index2.html';
+        let xhr2 = new XMLHttpRequest();
+        xhr2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=46e27dd2057dbfefd9e6037ade81357b', true);
+        xhr2.send();
+        xhr2.addEventListener('readystatechange', function () {
+            if (xhr2.readyState == 4 && xhr2.status == 200) {
+                let usersArr = JSON.parse(xhr2.responseText)
+                let flag1 = true
+                for (let i in usersArr) {
+                    if (usersArr[i].login == localStorage.getItem('login')) {
+                        usersArr[i].entered = 0
+                        let xhrSender2 = new XMLHttpRequest();
+                        xhrSender2.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=46e27dd2057dbfefd9e6037ade81357b', true)
+                        xhrSender2.setRequestHeader("Content-type", "application/json");
+                        xhrSender2.send(JSON.stringify(usersArr));
+                        xhrSender2.addEventListener('readystatechange', function () {
+                            if (xhrSender2.readyState == 4) {
+                                if (xhrSender2.status == 200) {
+                                    localStorage.setItem('enterSeabattle', 0)
+                                    window.location.href = 'index2.html';
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        })
+
     })
 }
 
@@ -141,7 +191,9 @@ if (document.title == "Fields") {
             let templateCode = `
                 <div onclick="window.location.href='index5.html';" style="cursor: pointer;" class="fieldListElement" id={{creator}}{{count}}>Название поля: {{fieldName}}</div>
             `
-            let templateCode2 = `<button id="deleteField" class="CreateField">Удалить поле</button>`
+            let templateCode2 = `<button id="deleteField" class="CreateField">Удалить поле</button>
+            <button id="clear" class="CreateField">Localstorageclear()</button>
+            `
             let template = Handlebars.compile(templateCode);
             let template2 = Handlebars.compile(templateCode2);
             let fieldul2 = document.querySelector('#buttons');
@@ -149,6 +201,9 @@ if (document.title == "Fields") {
             fieldul.innerHTML = '';
             if (localStorage.getItem('status') == 'admin') {
                 fieldul2.innerHTML += template2()
+                clear.addEventListener('click', function () {
+                    localStorage.clear()
+                })
                 deleteField.addEventListener('click', function () {
                     flag = false
                     let templateCode3 = `
@@ -193,7 +248,9 @@ if (document.title == "Fields") {
                         let templateCode = `
                             <div onclick="window.location.href='index5.html';" style="cursor: pointer;" class="fieldListElement" id={{creator}}{{count}}>Название поля: {{fieldName}}</div>
                         `
-                        let templateCode2 = `<button id="deleteField" class="CreateField">Удалить поле</button>`
+                        let templateCode2 = `<button id="deleteField" class="CreateField">Удалить поле</button>
+                        <button id="clear" class="CreateField">Localstorageclear()</button>
+                        `
                         let template = Handlebars.compile(templateCode);
                         let template2 = Handlebars.compile(templateCode2);
                         let fieldul2 = document.querySelector('#buttons');
@@ -314,9 +371,9 @@ function findGoing() {
                                     }
                                 }
                             }
-                            if(localStorage.getItem('alertenemystep')==1){
+                            if (localStorage.getItem('alertenemystep') == 1) {
                                 alert('Ваш ход')
-                                localStorage.setItem('alertenemystep',0)
+                                localStorage.setItem('alertenemystep', 0)
                             }
                             gameGoing()
                             clearInterval(t)
@@ -351,7 +408,7 @@ function gameGoing() {
                                 enemyarr[i][j] = 3
                                 myarr[11] = false
                                 enemyarr[11] = true
-                                localStorage.setItem('alertenemystep',1)
+                                localStorage.setItem('alertenemystep', 1)
                                 alert('Ход соперника')
                             }
                         }
@@ -744,7 +801,7 @@ if (document.title == "Game") {
                                                                     })
                                                                     localStorage.setItem('steps', 0)
                                                                     localStorage.setItem('timer', 0)
-                                                                    localStorage.setItem('alertenemystep',1)
+                                                                    localStorage.setItem('alertenemystep', 1)
                                                                     localStorage.setItem('gameStarted', 1)
                                                                     gameGoing()
                                                                     alert('противник найден')
@@ -815,7 +872,7 @@ if (document.title == "Game") {
                                                                     localStorage.setItem('correct', 1)
                                                                     localStorage.setItem('timer', 1)
                                                                     localStorage.setItem('startClicked', 1)
-                                                                    localStorage.setItem('alertenemystep',1)
+                                                                    localStorage.setItem('alertenemystep', 1)
                                                                     localStorage.setItem('steps', 0)
                                                                     localStorage.setItem('gameStarted', 1)
                                                                     findGoing()
