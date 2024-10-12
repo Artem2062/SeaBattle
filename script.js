@@ -74,26 +74,31 @@ function register() {
                 }
             }
             if (flag1 == true) {
-                user.nickname = nickname.value
-                user.login = login.value
-                user.password = password.value
-                nickname.value = ""
-                login.value = ""
-                password.value = ""
-                usersArr.push(user)
-                let xhrSender = new XMLHttpRequest();
-                xhrSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=46e27dd2057dbfefd9e6037ade81357b', true)
-                xhrSender.setRequestHeader("Content-type", "application/json");
-                xhrSender.send(JSON.stringify(usersArr));
-                xhrSender.addEventListener('readystatechange', function () {
-                    if (xhrSender.readyState == 4) {
-                        if (xhrSender.status == 200) {
-                            alert('Пользователь успешно зарегестрирован!');
-                        } else {
-                            alert('Ошибка отправки. Попробуйте еще раз.');
+                if (passwordcheck.value == password.value) {
+                    user.nickname = nickname.value
+                    user.login = login.value
+                    user.password = password.value
+                    nickname.value = ""
+                    login.value = ""
+                    password.value = ""
+                    passwordcheck.value = ""
+                    usersArr.push(user)
+                    let xhrSender = new XMLHttpRequest();
+                    xhrSender.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=46e27dd2057dbfefd9e6037ade81357b', true)
+                    xhrSender.setRequestHeader("Content-type", "application/json");
+                    xhrSender.send(JSON.stringify(usersArr));
+                    xhrSender.addEventListener('readystatechange', function () {
+                        if (xhrSender.readyState == 4) {
+                            if (xhrSender.status == 200) {
+                                alert('Пользователь успешно зарегестрирован!');
+                            } else {
+                                alert('Ошибка отправки. Попробуйте еще раз.');
+                            }
                         }
-                    }
-                })
+                    })
+                } else {
+                    alert("Пароли не совпадают")
+                }
             }
         }
     }
@@ -411,6 +416,7 @@ function gameGoing() {
                         }
                     }
                 }
+
                 localStorage.setItem('myarr', JSON.stringify(myarr))
                 localStorage.setItem('enemyarr', JSON.stringify(enemyarr))
                 let gamestep = new XMLHttpRequest();
