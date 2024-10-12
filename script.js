@@ -529,6 +529,14 @@ if (document.title == "Game") {
             if (localStorage.getItem('gameSended') == 1) {
                 deleteGame()
             }
+            if (localStorage.getItem('gameSended') == 0) {
+                localStorage.setItem('enterGame', 0)
+                localStorage.setItem('correct', 0)
+                localStorage.setItem('gameSended', 0)
+                localStorage.setItem('gameStarted', 0)
+                localStorage.setItem('startClicked', 0)
+                window.location.href = 'index3.html';
+            }
         }
     })
     document.addEventListener('click', function (e) {
