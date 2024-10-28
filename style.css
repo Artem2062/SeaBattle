@@ -113,7 +113,7 @@ footer {
     display: flex;
     flex-direction: column;
     aspect-ratio: 1 / 1;
-    background-color: blue;
+    background-color: black;
 }
 .fieldLine{
     display: flex;
@@ -124,7 +124,7 @@ footer {
     display: flex;
     flex-direction: column;
     aspect-ratio: 1 / 1;
-    background-color: blue;
+    background-color: black;
 }
 
 .exitGameButton {
@@ -348,84 +348,4 @@ if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
         })
     }
 */
-/*
-if (i < 9) {
-                                    if (enemyarr[i + 1][j] == 2 && i < 8) {
-                                        if (enemyarr[i + 2][j] == 2 && i < 7) {
-                                            if (enemyarr[i + 3][j] == 2) {
-                                                if (j > 0 && j < 9) {
-                                                    enemyarr[i][j + 1] = 3
-                                                    enemyarr[i + 1][j + 1] = 3
-                                                    enemyarr[i + 2][j + 1] = 3
-                                                    enemyarr[i + 3][j + 1] = 3
-                                                    enemyarr[i][j - 1] = 3
-                                                    enemyarr[i + 1][j - 1] = 3
-                                                    enemyarr[i + 2][j - 1] = 3
-                                                    enemyarr[i + 3][j - 1] = 3
-                                                }
-                                                if(j==0){
-                                                    enemyarr[i][j + 1] = 3
-                                                    enemyarr[i + 1][j + 1] = 3
-                                                    enemyarr[i + 2][j + 1] = 3
-                                                    enemyarr[i + 3][j + 1] = 3
-                                                }
-                                                if(j==9){
-                                                    enemyarr[i][j - 1] = 3
-                                                    enemyarr[i + 1][j - 1] = 3
-                                                    enemyarr[i + 2][j - 1] = 3
-                                                    enemyarr[i + 3][j - 1] = 3
-                                                }
-                                                paint(enemyarr)
-                                            } else if(enemyarr[i + 3][j] == 0){
-                                                if (j > 0 && j < 9) {
-                                                    enemyarr[i][j + 1] = 3
-                                                    enemyarr[i + 1][j + 1] = 3
-                                                    enemyarr[i + 2][j + 1] = 3
-                                                    enemyarr[i][j - 1] = 3
-                                                    enemyarr[i + 1][j - 1] = 3
-                                                    enemyarr[i + 2][j - 1] = 3
-                                                }
-                                                if(j==0){
-                                                    enemyarr[i][j + 1] = 3
-                                                    enemyarr[i + 1][j + 1] = 3
-                                                    enemyarr[i + 2][j + 1] = 3
-                                                }
-                                                if(j==9){
-                                                    enemyarr[i][j - 1] = 3
-                                                    enemyarr[i + 1][j - 1] = 3
-                                                    enemyarr[i + 2][j - 1] = 3
-                                                }
-                                                paint(enemyarr)
-                                            }
-                                        } else if(enemyarr[i + 2][j] == 0){
-                                            if (j > 0 && j < 9) {
-                                                enemyarr[i][j + 1] = 3
-                                                enemyarr[i + 1][j + 1] = 3
-                                                enemyarr[i][j - 1] = 3
-                                                enemyarr[i + 1][j - 1] = 3
-                                            }
-                                            if(j==0){
-                                                enemyarr[i][j + 1] = 3
-                                                enemyarr[i + 1][j + 1] = 3
-                                            }
-                                            if(j==9){
-                                                enemyarr[i][j - 1] = 3
-                                                enemyarr[i + 1][j - 1] = 3
-                                            }
-                                            paint(enemyarr)
-                                        }
-                                    } else if(enemyarr[i + 1][j] == 0){
-                                        if (j > 0 && j < 9) {
-                                            enemyarr[i][j + 1] = 3
-                                            enemyarr[i][j - 1] = 3
-                                        }
-                                        if(j==0){
-                                            enemyarr[i][j + 1] = 3
-                                        }
-                                        if(j==9){
-                                            enemyarr[i][j - 1] = 3
-                                        }
-                                        paint(enemyarr)
-                                    }
-                                }
-*/
+/**/
