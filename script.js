@@ -1,4 +1,5 @@
 'use strict'
+localStorage.clear()
 let xhr = new XMLHttpRequest();
 xhr.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=609be300257d1b25c798f6cc340ff64a', true);
 xhr.send();
