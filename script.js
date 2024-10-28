@@ -433,7 +433,7 @@ function checkBoatEnd(enemyarr, k) {
                             }
                         }
                     }
-                    if (enemyarr[a + 2][b] == 2 && a == 7 && check.includes((a + 2) * 10 + b) == false) {
+                    if (enemyarr[a + 2][b] == 2 && a == 7 && check.includes((a + 2) * 10 + b) == false && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                         check.push(a * 10 + b)
                         check.push((a + 1) * 10 + b)
                         check.push((a + 2) * 10 + b)
@@ -451,7 +451,7 @@ function checkBoatEnd(enemyarr, k) {
                         }
                     }
                 }
-                if (enemyarr[a + 1][b] == 2 && a == 8 && check.includes((a + 1) * 10 + b) == false) {
+                if (enemyarr[a + 1][b] == 2 && a == 8 && check.includes((a + 1) * 10 + b) == false && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                     check.push(a * 10 + b)
                     check.push((a + 1) * 10 + b)
                 }
@@ -459,17 +459,17 @@ function checkBoatEnd(enemyarr, k) {
                     if (a > 0) {
                         if (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3) {
                             if (b > 0 && b < 9) {
-                                if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3)&&(enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)){
+                                if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3) && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                     check.push(a * 10 + b)
                                 }
                             }
-                            if(b==0){
-                                if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3)){
+                            if (b == 0) {
+                                if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3)) {
                                     check.push(a * 10 + b)
                                 }
                             }
-                            if(b==9){
-                                if ((enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)){
+                            if (b == 9) {
+                                if ((enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                     check.push(a * 10 + b)
                                 }
                             }
@@ -477,22 +477,110 @@ function checkBoatEnd(enemyarr, k) {
                     }
                     if (a == 0) {
                         if (b > 0 && b < 9) {
-                            if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3)&&(enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)){
+                            if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3) && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                 check.push(a * 10 + b)
                             }
                         }
-                        if(b==0){
-                            if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3)){
+                        if (b == 0) {
+                            if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3)) {
                                 check.push(a * 10 + b)
                             }
                         }
-                        if(b==9){
-                            if ((enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)){
+                        if (b == 9) {
+                            if ((enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                 check.push(a * 10 + b)
                             }
                         }
                     }
                 }
+            }
+            if (enemyarr[a][b] == 2 && b < 9 && (check.includes(a * 10 + b) == false)) {
+                if (enemyarr[a][b + 1] == 2 && b < 8 && (check.includes(a * 10 + b + 1) == false)) {
+                    if (enemyarr[a][b + 2] == 2 && b < 7 && (check.includes(a * 10 + b + 2) == false)) {
+                        if (enemyarr[a][b + 3] == 2 && (check.includes(a * 10 + b + 3) == false)) {
+                            check.push(a * 10 + b)
+                            check.push(a * 10 + b + 1)
+                            check.push(a * 10 + b + 2)
+                            check.push(a * 10 + b + 3)
+                        }
+                        if ((enemyarr[a][b + 3] == 0 || enemyarr[a][b + 3] == 3)) {
+                            if (b > 0) {
+                                if (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3) {
+                                    check.push(a * 10 + b)
+                                    check.push(a * 10 + b + 1)
+                                    check.push(a * 10 + b + 2)
+                                }
+                            }
+                            if (b == 0) {
+                                check.push(a * 10 + b)
+                                check.push(a * 10 + b + 1)
+                                check.push(a * 10 + b + 2)
+                            }
+                        }
+                    }
+                    if (enemyarr[a][b + 2] == 2 && b == 7 && check.includes(a * 10 + b + 2) == false && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
+                        check.push(a * 10 + b)
+                        check.push(a * 10 + b + 1)
+                        check.push(a * 10 + b + 2)
+                    }
+                    if ((enemyarr[a][b + 2] == 0 || enemyarr[a][b + 2] == 3)) {
+                        if (b > 0) {
+                            if (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3) {
+                                check.push(a * 10 + b)
+                                check.push(a * 10 + b + 1)
+                            }
+                        }
+                        if (b == 0) {
+                            check.push(a * 10 + b)
+                            check.push(a * 10 + b + 1)
+                        }
+                    }
+                }
+                if (enemyarr[a][b + 1] == 2 && b == 8 && check.includes(a * 10 + b + 1) == false&& (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
+                    check.push(a * 10 + b)
+                    check.push(a * 10 + b + 1)
+                }
+                if (enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3) {
+                    if (b > 0) {
+                        if (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3) {
+                            if (a > 0 && a < 9) {
+                                if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3) && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
+                                    check.push(a * 10 + b)
+                                }
+                            }
+                            if (a == 0) {
+                                if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3)) {
+                                    check.push(a * 10 + b)
+                                }
+                            }
+                            if (a == 9) {
+                                if ((enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
+                                    check.push(a * 10 + b)
+                                }
+                            }
+                        }
+                    }
+                    if (b == 0) {
+                        if (a > 0 && a < 9) {
+                            if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3) && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
+                                check.push(a * 10 + b)
+                            }
+                        }
+                        if (a == 0) {
+                            if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3)) {
+                                check.push(a * 10 + b)
+                            }
+                        }
+                        if (a == 9) {
+                            if ((enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
+                                check.push(a * 10 + b)
+                            }
+                        }
+                    }
+                }
+            }
+            if (a == 9 && b == 9 && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3) && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
+                check.push(a * 10 + b)
             }
         }
     }
