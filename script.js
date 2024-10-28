@@ -589,6 +589,10 @@ function checkBoatEnd(enemyarr, k) {
 }
 function gameGoing() {
     document.addEventListener('click', function (e) {
+        console.log(e.target.id)
+        if(e.target.id=="loseButton"){
+            deleteGame()
+        }
         if (e.target.id.slice(0, 10) == "enemyField") {
             let myarr = JSON.parse(localStorage.getItem('myarr'))
             let enemyarr = JSON.parse(localStorage.getItem('enemyarr'))
