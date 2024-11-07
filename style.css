@@ -41,17 +41,19 @@ header {
 ul {
     display: flex;
     margin: 0;
+    width: 100%;
 }
 
 a {
     list-style-type: none;
-    margin: 0px 20% 0px 20%;
+    margin: 0px 4% 0px 4%;
     text-decoration: none;
     align-items: center;
     display: flex;
     color: rgb(2, 10, 24);
     font-size: 26px;
     font-weight: 500;
+    width: 100px;
 }
 
 .registration-button {
@@ -214,6 +216,23 @@ footer {
     margin-left: 5%;
     cursor: pointer;
 }
+.rate{
+    position: absolute;
+    margin-right: 75px;
+    margin-left: 0;
+}
+.verticalbox{
+    position: absolute;
+    margin-left: 90%;
+    display:block;
+}
+
+
+
+
+
+
+
 
 @media(min-width:1px)and (max-width:1620px) {
     .fieldText {

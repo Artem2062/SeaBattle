@@ -123,6 +123,10 @@ if (localStorage.getItem('enterSeabattle') == 1 && (document.title == "Fields" |
             <a href="index3.html">Поля</a>
             <a href="index4.html">Правила</a>
             <button class="exitButton" id="exitButton">Выйти</button>
+            <div class="verticalbox">
+                <div class="username" id="username">Konov</div>
+                <div class="rate" id="rate">213</div>
+            </div>
         </ul>
     `
     let template = Handlebars.compile(templateCode);
