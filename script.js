@@ -449,6 +449,7 @@ function paint(enemyarr) {
 }
 
 function checkBoatEnd(enemyarr, k) {
+    let soundCheck=localStorage.getItem('checkArr')
     let check = []
     let end1 = false
     let end2 = false
@@ -488,20 +489,26 @@ function checkBoatEnd(enemyarr, k) {
                             if (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3) {
                                 check.push(a * 10 + b)
                                 check.push((a + 1) * 10 + b)
-                                sound1.play()
+                                if(soundCheck.includes(a * 10 + b)==false){
+                                    sound1.play()
+                                }
                             }
                         }
                         if (a == 0) {
-                            sound1.play()
                             check.push(a * 10 + b)
                             check.push((a + 1) * 10 + b)
+                            if(soundCheck.includes(a * 10 + b)==false){
+                                sound1.play()
+                            }
                         }
                     }
                 }
                 if (enemyarr[a + 1][b] == 2 && a == 8 && check.includes((a + 1) * 10 + b) == false && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                     check.push(a * 10 + b)
                     check.push((a + 1) * 10 + b)
-                    sound1.play()
+                    if(soundCheck.includes(a * 10 + b)==false){
+                        sound1.play()
+                    }
                 }
                 if (enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3) {
                     if (a > 0) {
@@ -576,20 +583,26 @@ function checkBoatEnd(enemyarr, k) {
                             if (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3) {
                                 check.push(a * 10 + b)
                                 check.push(a * 10 + b + 1)
-                                sound1.play()
+                                if(soundCheck.includes(a * 10 + b)==false){
+                                    sound1.play()
+                                }
                             }
                         }
                         if (b == 0) {
                             check.push(a * 10 + b)
                             check.push(a * 10 + b + 1)
-                            sound1.play()
+                            if(soundCheck.includes(a * 10 + b)==false){
+                                sound1.play()
+                            }
                         }
                     }
                 }
                 if (enemyarr[a][b + 1] == 2 && b == 8 && check.includes(a * 10 + b + 1) == false && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                     check.push(a * 10 + b)
                     check.push(a * 10 + b + 1)
-                    sound1.play()
+                    if(soundCheck.includes(a * 10 + b)==false){
+                        sound1.play()
+                    }
                 }
                 if (enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3) {
                     if (b > 0) {
