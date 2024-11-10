@@ -213,7 +213,11 @@ if (document.title == "Fields") {
             if (localStorage.getItem('status') == 'admin') {
                 fieldul2.innerHTML += template2()
                 clear.addEventListener('click', function () {
-                    localStorage.clear()
+                    let fieldsDelete = new XMLHttpRequest();
+                    let zerofield=[]
+                    fieldsDelete.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=6c2b964fc7850f7ca6f1a0015505b836', true);
+                    fieldsDelete.setRequestHeader("Content-type", "application/json");
+                    fieldsDelete.send(JSON.stringify(zerofield));
                 })
                 deleteField.addEventListener('click', function () {
                     flag = false
@@ -388,7 +392,7 @@ function findGoing() {
                             break
                         }
                         if (gameArr4[i][11] == "lose") {
-                            localStorage.setItem('gameEnded',2)
+                            localStorage.setItem('gameEnded', 2)
                             alert('К сожалению вы проиграли');
                             deleteTwoFields()
                             clearInterval(t)
@@ -453,10 +457,9 @@ function paint(enemyarr) {
 }
 
 function checkBoatEnd(enemyarr, k) {
-    let soundCheck=localStorage.getItem('checkArr')
+    let soundCheck = localStorage.getItem('checkArr')
     let check = []
-    let end1 = false
-    let end2 = false
+    let flag=false
     for (let a = 0; a < 10; a++) {
         for (let b = 0; b < 10; b++) {
             if (enemyarr[a][b] == 2 && a < 9 && (check.includes(a * 10 + b) == false)) {
@@ -467,6 +470,10 @@ function checkBoatEnd(enemyarr, k) {
                             check.push((a + 1) * 10 + b)
                             check.push((a + 2) * 10 + b)
                             check.push((a + 3) * 10 + b)
+                            if (soundCheck.includes(a * 10 + b) == false) {
+                                flag=true
+                                sound7.play()
+                            }
                         }
                         if ((enemyarr[a + 3][b] == 0 || enemyarr[a + 3][b] == 3)) {
                             if (a > 0) {
@@ -474,12 +481,20 @@ function checkBoatEnd(enemyarr, k) {
                                     check.push(a * 10 + b)
                                     check.push((a + 1) * 10 + b)
                                     check.push((a + 2) * 10 + b)
+                                    if (soundCheck.includes(a * 10 + b) == false) {
+                                        flag=true
+                                        sound6.play()
+                                    }
                                 }
                             }
                             if (a == 0) {
                                 check.push(a * 10 + b)
                                 check.push((a + 1) * 10 + b)
                                 check.push((a + 2) * 10 + b)
+                                if (soundCheck.includes(a * 10 + b) == false) {
+                                    flag=true
+                                    sound6.play()
+                                }
                             }
                         }
                     }
@@ -487,22 +502,28 @@ function checkBoatEnd(enemyarr, k) {
                         check.push(a * 10 + b)
                         check.push((a + 1) * 10 + b)
                         check.push((a + 2) * 10 + b)
+                        if (soundCheck.includes(a * 10 + b) == false) {
+                            flag=true
+                            sound6.play()
+                        }
                     }
                     if ((enemyarr[a + 2][b] == 0 || enemyarr[a + 2][b] == 3)) {
                         if (a > 0) {
                             if (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3) {
                                 check.push(a * 10 + b)
                                 check.push((a + 1) * 10 + b)
-                                if(soundCheck.includes(a * 10 + b)==false){
-                                    sound1.play()
+                                if (soundCheck.includes(a * 10 + b) == false) {
+                                    flag=true
+                                    sound5.play()
                                 }
                             }
                         }
                         if (a == 0) {
                             check.push(a * 10 + b)
                             check.push((a + 1) * 10 + b)
-                            if(soundCheck.includes(a * 10 + b)==false){
-                                sound1.play()
+                            if (soundCheck.includes(a * 10 + b) == false) {
+                                flag=true
+                                sound5.play()
                             }
                         }
                     }
@@ -510,8 +531,9 @@ function checkBoatEnd(enemyarr, k) {
                 if (enemyarr[a + 1][b] == 2 && a == 8 && check.includes((a + 1) * 10 + b) == false && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                     check.push(a * 10 + b)
                     check.push((a + 1) * 10 + b)
-                    if(soundCheck.includes(a * 10 + b)==false){
-                        sound1.play()
+                    if (soundCheck.includes(a * 10 + b) == false) {
+                        flag=true
+                        sound5.play()
                     }
                 }
                 if (enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3) {
@@ -520,16 +542,28 @@ function checkBoatEnd(enemyarr, k) {
                             if (b > 0 && b < 9) {
                                 if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3) && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                     check.push(a * 10 + b)
+                                    if (soundCheck.includes(a * 10 + b) == false) {
+                                        flag=true
+                                        sound4.play()
+                                    }
                                 }
                             }
                             if (b == 0) {
                                 if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3)) {
                                     check.push(a * 10 + b)
+                                    if (soundCheck.includes(a * 10 + b) == false) {
+                                        flag=true
+                                        sound4.play()
+                                    }
                                 }
                             }
                             if (b == 9) {
                                 if ((enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                     check.push(a * 10 + b)
+                                    if (soundCheck.includes(a * 10 + b) == false) {
+                                        flag=true
+                                        sound4.play()
+                                    }
                                 }
                             }
                         }
@@ -538,16 +572,28 @@ function checkBoatEnd(enemyarr, k) {
                         if (b > 0 && b < 9) {
                             if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3) && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                 check.push(a * 10 + b)
+                                if (soundCheck.includes(a * 10 + b) == false) {
+                                    flag=true
+                                    sound4.play()
+                                }
                             }
                         }
                         if (b == 0) {
                             if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3)) {
                                 check.push(a * 10 + b)
+                                if (soundCheck.includes(a * 10 + b) == false) {
+                                    flag=true
+                                    sound4.play()
+                                }
                             }
                         }
                         if (b == 9) {
                             if ((enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                 check.push(a * 10 + b)
+                                if (soundCheck.includes(a * 10 + b) == false) {
+                                    flag=true
+                                    sound4.play()
+                                }
                             }
                         }
                     }
@@ -561,6 +607,10 @@ function checkBoatEnd(enemyarr, k) {
                             check.push(a * 10 + b + 1)
                             check.push(a * 10 + b + 2)
                             check.push(a * 10 + b + 3)
+                            if (soundCheck.includes(a * 10 + b) == false) {
+                                flag=true
+                                sound7.play()
+                            }
                         }
                         if ((enemyarr[a][b + 3] == 0 || enemyarr[a][b + 3] == 3)) {
                             if (b > 0) {
@@ -568,12 +618,20 @@ function checkBoatEnd(enemyarr, k) {
                                     check.push(a * 10 + b)
                                     check.push(a * 10 + b + 1)
                                     check.push(a * 10 + b + 2)
+                                    if (soundCheck.includes(a * 10 + b) == false) {
+                                        flag=true
+                                        sound6.play()
+                                    }
                                 }
                             }
                             if (b == 0) {
                                 check.push(a * 10 + b)
                                 check.push(a * 10 + b + 1)
                                 check.push(a * 10 + b + 2)
+                                if (soundCheck.includes(a * 10 + b) == false) {
+                                    flag=true
+                                    sound6.play()
+                                }
                             }
                         }
                     }
@@ -581,22 +639,28 @@ function checkBoatEnd(enemyarr, k) {
                         check.push(a * 10 + b)
                         check.push(a * 10 + b + 1)
                         check.push(a * 10 + b + 2)
+                        if (soundCheck.includes(a * 10 + b) == false) {
+                            flag=true
+                            sound6.play()
+                        }
                     }
                     if ((enemyarr[a][b + 2] == 0 || enemyarr[a][b + 2] == 3)) {
                         if (b > 0) {
                             if (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3) {
                                 check.push(a * 10 + b)
                                 check.push(a * 10 + b + 1)
-                                if(soundCheck.includes(a * 10 + b)==false){
-                                    sound1.play()
+                                if (soundCheck.includes(a * 10 + b) == false) {
+                                    flag=true
+                                    sound5.play()
                                 }
                             }
                         }
                         if (b == 0) {
                             check.push(a * 10 + b)
                             check.push(a * 10 + b + 1)
-                            if(soundCheck.includes(a * 10 + b)==false){
-                                sound1.play()
+                            if (soundCheck.includes(a * 10 + b) == false) {
+                                flag=true
+                                sound5.play()
                             }
                         }
                     }
@@ -604,8 +668,9 @@ function checkBoatEnd(enemyarr, k) {
                 if (enemyarr[a][b + 1] == 2 && b == 8 && check.includes(a * 10 + b + 1) == false && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                     check.push(a * 10 + b)
                     check.push(a * 10 + b + 1)
-                    if(soundCheck.includes(a * 10 + b)==false){
-                        sound1.play()
+                    if (soundCheck.includes(a * 10 + b) == false) {
+                        flag=true
+                        sound5.play()
                     }
                 }
                 if (enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3) {
@@ -614,16 +679,28 @@ function checkBoatEnd(enemyarr, k) {
                             if (a > 0 && a < 9) {
                                 if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3) && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                                     check.push(a * 10 + b)
+                                    if (soundCheck.includes(a * 10 + b) == false) {
+                                        flag=true
+                                        sound4.play()
+                                    }
                                 }
                             }
                             if (a == 0) {
                                 if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3)) {
                                     check.push(a * 10 + b)
+                                    if (soundCheck.includes(a * 10 + b) == false) {
+                                        flag=true
+                                        sound4.play()
+                                    }
                                 }
                             }
                             if (a == 9) {
                                 if ((enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                                     check.push(a * 10 + b)
+                                    if (soundCheck.includes(a * 10 + b) == false) {
+                                        flag=true
+                                        sound4.play()
+                                    }
                                 }
                             }
                         }
@@ -632,16 +709,28 @@ function checkBoatEnd(enemyarr, k) {
                         if (a > 0 && a < 9) {
                             if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3) && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                                 check.push(a * 10 + b)
+                                if (soundCheck.includes(a * 10 + b) == false) {
+                                    flag=true
+                                    sound4.play()
+                                }
                             }
                         }
                         if (a == 0) {
                             if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3)) {
                                 check.push(a * 10 + b)
+                                if (soundCheck.includes(a * 10 + b) == false) {
+                                    flag=true
+                                    sound4.play()
+                                }
                             }
                         }
                         if (a == 9) {
                             if ((enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                                 check.push(a * 10 + b)
+                                if (soundCheck.includes(a * 10 + b) == false) {
+                                    flag=true
+                                    sound4.play()
+                                }
                             }
                         }
                     }
@@ -649,8 +738,19 @@ function checkBoatEnd(enemyarr, k) {
             }
             if (a == 9 && b == 9 && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3) && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3) && (check.includes(a * 10 + b) == false) && enemyarr[a][b] == 2) {
                 check.push(a * 10 + b)
+                if (soundCheck.includes(a * 10 + b) == false) {
+                    flag=true
+                    sound4.play()
+                }
             }
         }
+    }
+    console.log(soundCheck)
+    console.log(check);
+    console.log(soundCheck.length)
+    console.log(check.length);
+    if(flag==false){
+        sound2.play()
     }
     if (check.length == 20) {
         paint(enemyarr)
@@ -681,6 +781,7 @@ function gameGoing() {
                                 checkBoatEnd(enemyarr, k)
                             }
                             if (enemyarr[i][j] == 0) {
+                                sound3.play()
                                 e.target.classList.toggle('fieldElement3')
                                 enemyarr[i][j] = 3
                                 myarr[11] = false
@@ -1151,6 +1252,7 @@ if (document.title == "Game") {
                                                                                     localStorage.setItem('alertenemystep', 1)
                                                                                     localStorage.setItem('gameStarted', 1)
                                                                                     gameGoing()
+                                                                                    sound1.play()
                                                                                     alert('противник найден')
                                                                                     alert('Ваш ход')
                                                                                     clearInterval(a)
@@ -1161,7 +1263,6 @@ if (document.title == "Game") {
                                                                     }
                                                                 })
                                                             }, 2000)
-
                                                         }
                                                         if (field.players == 1 && flagplayers == true && field.login != localStorage.getItem('login')) {
                                                             let fieldcheck2 = new XMLHttpRequest();
@@ -1223,11 +1324,11 @@ if (document.title == "Game") {
                                                                                     localStorage.setItem('steps', 0)
                                                                                     localStorage.setItem('gameStarted', 1)
                                                                                     findGoing()
+                                                                                    sound1.play()
                                                                                     alert('противник найден')
                                                                                     alert('Ход соперника')
                                                                                 }
                                                                             })
-
                                                                         }
                                                                     })
                                                                 }
