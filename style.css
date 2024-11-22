@@ -271,10 +271,17 @@ footer {
         margin-left: -800px;  
         margin-right: 10%;
     }
-    
+
+    .exitButton {
+        height: 50px;
+        width: auto;
+        cursor: pointer;
+        margin: auto;
+    }
 }
 
 @media(min-width:1px)and (max-width:800px) {
+
     .registration-box {
         margin-left: 2%;
         margin-right: 2%;
@@ -310,6 +317,13 @@ footer {
         align-items: center; 
         margin-left: -800px;  
         margin-right: 20%;
+    }
+    .exitButton {
+        height: 50px;
+        width: 100px;
+        cursor: pointer;
+        margin: auto;
+        margin-right: 27%;
     }
 
 }
