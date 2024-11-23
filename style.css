@@ -1,7 +1,6 @@
 body {
     background-color: #DCECF2;
 }
-
 .registration-box {
     margin-left: 15%;
     margin-right: 15%;
@@ -15,7 +14,6 @@ body {
     border-radius: 20px;
     background-color: rgb(129, 216, 208);
 }
-
 .nickname,
 .login,
 .password {
@@ -24,7 +22,6 @@ body {
     height: 30px;
     border-radius: 5px;
 }
-
 header {
     margin: 0;
     left: 0;
@@ -37,13 +34,11 @@ header {
     height: 100px;
     z-index: 100;
 }
-
 ul {
     display: flex;
     margin: 0;
     width: 100%;
 }
-
 a {
     list-style-type: none;
     margin: 0px 4% 0px 4%;
@@ -55,14 +50,12 @@ a {
     font-weight: 500;
     width: 100px;
 }
-
 .registration-button {
     width: 30%;
     height: auto;
     padding: 5px;
     cursor: pointer;
 }
-
 footer {
     position: fixed;
     left: 0;
@@ -71,20 +64,17 @@ footer {
     width: 100%;
     background-color: rgb(129, 216, 208);
 }
-
 .exitButton {
     height: auto;
     width: auto;
     cursor: pointer;
 }
-
 .CreateField {
     width: auto;
     padding: 5px;
     cursor: pointer;
     position: relative;
 }
-
 .fieldsUl {
     margin-top: 10px;
     margin-bottom: 110px;
@@ -92,7 +82,6 @@ footer {
     width: 100%;
     flex-direction: column;
 }
-
 .fieldListElement {
     height: auto;
     border-radius: 3px;
@@ -108,7 +97,6 @@ footer {
     display: flex;
     justify-content: space-evenly;
 }
-
 .mineField {
     width: 800px;
     height: 800px;
@@ -128,14 +116,12 @@ footer {
     aspect-ratio: 1 / 1;
     background-color: black;
 }
-
 .exitGameButton {
     margin-left: 5%;
     width: auto;
     height: 30%;
     cursor: pointer;
 }
-
 .createFieldAdmin {
     display: flex;
     align-items: center;
@@ -143,7 +129,6 @@ footer {
     flex-direction: column;
     margin-top: 150px;
 }
-
 .rules {
     align-items: center;
     display: flex;
@@ -156,7 +141,6 @@ footer {
     padding: 20px;
     background-color: rgb(129, 216, 208);
 }
-
 .twoFieldsBox {
     display: flex;
     align-items: center;
@@ -166,13 +150,11 @@ footer {
     position: relative;
     margin-top: 50px;
 }
-
 .startGameButton {
     margin-top: 20%;
     margin-left: 40%;
     padding: 5% 10% 5% 10%;
 }
-
 .fieldText {
     padding-top: 15vh;
     padding-bottom: -20vh;
@@ -226,15 +208,14 @@ footer {
     margin-left: 90%;
     display:block;
 }
-
-
-
+.username{
+    font-size: 30px;
+}
 
 @media(min-width:1px)and (max-width:1620px) {
     .fieldText {
         margin-top: 0px;
     }
-
 }
 
 @media(min-width:800px)and (max-width:1660px) {
@@ -243,7 +224,6 @@ footer {
         margin-right: 2%;
         margin-top: 20%;
     }
-
     .nickname,
     .login,
     .password {
@@ -252,26 +232,22 @@ footer {
         height: 60px;
         border-radius: 5px;
     }
-
     .registration-button {
         width: 60%;
         height: 60px;
     }
-    
     .mineblock{
         padding-top: 35vh;
         align-items: center;
         margin-left: auto;   
         z-index: 10;
     }
-
     .enemyblock{
         margin-top: 2100px; 
         align-items: center; 
         margin-left: -800px;  
         margin-right: 10%;
     }
-
     .exitButton {
         height: 50px;
         width: auto;
@@ -281,7 +257,6 @@ footer {
 }
 
 @media(min-width:1px)and (max-width:800px) {
-
     .registration-box {
         margin-left: 2%;
         margin-right: 2%;
@@ -296,12 +271,10 @@ footer {
         width: 60%;
         height: 60px;
     }
-
     a {
         margin: 10%;
         font-size: 20px;
     }
-
     header {
         height: 70px;
     }
@@ -311,7 +284,6 @@ footer {
         margin-left: auto;   
         z-index: 10;
     }
-
     .enemyblock{
         margin-top: 2200px; 
         align-items: center; 
@@ -325,56 +297,4 @@ footer {
         margin: auto;
         margin-right: 27%;
     }
-
 }
-
-/* https://studyprograms.informatics.ru/api/jsonstorage/*/
-/*
-if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-        let flag = false
-        let gamestep3 = new XMLHttpRequest();
-        gamestep3.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=66dd2f6d4abe575c51e8c7b9faac9ee8', true);
-        gamestep3.send();
-        gamestep3.addEventListener('readystatechange', function () {
-            if (gamestep3.readyState == 4 && gamestep3.status == 200) {
-                let gameArr3 = JSON.parse(gamestep3.responseText)
-                for (let elem of gameArr3) {
-                    if (elem[10] == localStorage.getItem('login')) {
-                        flag = true
-                        for (let i = 0; i < 10; i++) {
-                            for (let j = 0; j < 10; j++) {
-                                if (elem[i][j] == 1) {
-                                    let k = i * 10 + j
-                                    let b = 'fieldPart' + k
-                                    let c = document.querySelector('#' + b)
-                                    c.classList = ('fieldElement2')
-                                }
-                                if (elem[i][j] == 2) {
-                                    let k = i * 10 + j
-                                    let b = 'fieldPart' + k
-                                    let c = document.querySelector('#' + b)
-                                    c.classList = ('fieldElement3')
-                                }
-                                if (elem[i][j] == 3) {
-                                    let k = i * 10 + j
-                                    let b = 'fieldPart' + k
-                                    let c = document.querySelector('#' + b)
-                                    c.classList = ('fieldElement4')
-                                }
-                            }
-                        }
-                        localStorage.setItem('correct', 1)
-                        localStorage.setItem('gameStarted', 1)
-                        localStorage.setItem('startClicked', 1)
-                    }
-                }
-                if (flag == false) {
-                    localStorage.setItem('correct', 0)
-                    localStorage.setItem('gameStarted', 0)
-                    localStorage.setItem('startClicked', 0)
-                }
-            }
-        })
-    }
-*/
-/**/

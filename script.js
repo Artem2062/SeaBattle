@@ -2,6 +2,7 @@
 let xhr = new XMLHttpRequest();
 xhr.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=8a0af03453f09266032f9ba7efeba9e4', true);
 xhr.send();
+
 function enter() {
     let xhr2 = new XMLHttpRequest();
     xhr2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=8a0af03453f09266032f9ba7efeba9e4', true);
@@ -52,6 +53,7 @@ function enter() {
         }
     })
 }
+
 function register() {
     if (xhr.readyState == 4 && xhr.status == 200) {
         let usersArr = JSON.parse(xhr.responseText)
@@ -103,13 +105,14 @@ function register() {
         }
     }
 }
-if (localStorage.getItem("enterSeabattle") == 0 && (document.title == "Rules" || document.title == "Fields")) {
+
+if (localStorage.getItem("enterSeabattle") == 0 && (document.title == "Правила" || document.title == "Поля")) {
     window.location.href = 'index.html';
 }
-if (localStorage.getItem('enterSeabattle') == 1 && document.title == "Registration") {
+if (localStorage.getItem('enterSeabattle') == 1 && document.title == "Регистрация") {
     window.location.href = 'index3.html';
 }
-if (localStorage.getItem('enterGame') == 1 && document.title != "Game") {
+if (localStorage.getItem('enterGame') == 1 && document.title != "Бой") {
     localStorage.setItem('correct', 0)
     localStorage.setItem('gameStarted', 0)
     localStorage.setItem('gameSended', 0)
@@ -117,15 +120,14 @@ if (localStorage.getItem('enterGame') == 1 && document.title != "Game") {
     window.location.href = 'index7.html';
 }
 
-if (localStorage.getItem('enterSeabattle') == 1 && (document.title == "Fields" || document.title == "Rules")) {
+if (localStorage.getItem('enterSeabattle') == 1 && (document.title == "Поля" || document.title == "Правила")) {
     let templateCode = `
         <ul>
             <a href="index3.html">Поля</a>
             <a href="index4.html">Правила</a>
             <button class="exitButton" id="exitButton">Выйти</button>
             <div class="verticalbox">
-                <div class="username" id="username">Konov</div>
-                <div class="rate" id="rate">213</div>
+                <div class="username" id="username">${localStorage.getItem('nickname')}</div>
             </div>
         </ul>
     `
@@ -161,11 +163,10 @@ if (localStorage.getItem('enterSeabattle') == 1 && (document.title == "Fields" |
                 }
             }
         })
-
     })
 }
 
-if (document.title == "Registration") {
+if (document.title == "Регистрация") {
     registrationButton.addEventListener('click', function () {
         register()
     })
@@ -175,7 +176,8 @@ if (document.title == "Registration") {
         }
     })
 }
-if (document.title == "Enter") {
+
+if (document.title == "Вход") {
     enterButton.addEventListener('click', function () {
         enter()
     })
@@ -185,13 +187,12 @@ if (document.title == "Enter") {
         }
     })
 }
+
 let fields2 = new XMLHttpRequest();
 fields2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=8f11d0af0bbdc10a6b24559e5af930c0', true);
 fields2.send();
-if (document.title == "Fields") {
-    randomButton.addEventListener('click', function () {
-        localStorage.setItem('randomeGame', 1)
-    })
+
+if (document.title == "Поля") {
     document.addEventListener('click', function (e) {
         localStorage.setItem('fieldName', e.target.id)
     })
@@ -214,7 +215,7 @@ if (document.title == "Fields") {
                 fieldul2.innerHTML += template2()
                 clear.addEventListener('click', function () {
                     let fieldsDelete = new XMLHttpRequest();
-                    let zerofield=[]
+                    let zerofield = []
                     fieldsDelete.open('PUT', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=6c2b964fc7850f7ca6f1a0015505b836', true);
                     fieldsDelete.setRequestHeader("Content-type", "application/json");
                     fieldsDelete.send(JSON.stringify(zerofield));
@@ -289,9 +290,9 @@ if (document.title == "Fields") {
     CreateField.addEventListener('click', function () {
         window.location.href = "index6.html"
     })
-
 }
-if (document.title == "Create") {
+
+if (document.title == "Создание") {
     create.addEventListener('click', function () {
         if (fieldCreateName.value == "") {
             alert("Заполните поле")
@@ -326,14 +327,13 @@ if (document.title == "Create") {
                 }
             })
         }
-
     })
     exitCreate.addEventListener('click', function () {
         window.location.href = "index3.html"
     })
 }
 
-if (document.title == "Gamefield") {
+if (document.title == "Подтверждение") {
     startGameButton.addEventListener('click', function () {
         localStorage.setItem('correct', 0)
         localStorage.setItem('gameStarted', 0)
@@ -341,7 +341,6 @@ if (document.title == "Gamefield") {
         localStorage.setItem('startClicked', 0)
         localStorage.setItem('enterGame', 1)
         window.location.href = "index7.html"
-
     })
     let templateCode = `
         <button class="exitGameButton" id="exitGameButton">Выйти</button>
@@ -403,6 +402,7 @@ function findGoing() {
         })
     }, 500)
 }
+
 function deleteTwoFields() {
     let game2 = new XMLHttpRequest();
     game2.open('GET', 'https://studyprograms.informatics.ru/api/jsonstorage/?id=6c2b964fc7850f7ca6f1a0015505b836', true);
@@ -443,6 +443,7 @@ function deleteTwoFields() {
         }
     })
 }
+
 function paint(enemyarr) {
     let check = JSON.parse(localStorage.getItem('checkArr'))
     for (let i = 0; i < 10; i++) {
@@ -459,7 +460,7 @@ function paint(enemyarr) {
 function checkBoatEnd(enemyarr, k) {
     let soundCheck = localStorage.getItem('checkArr')
     let check = []
-    let flag=false
+    let flag = false
     for (let a = 0; a < 10; a++) {
         for (let b = 0; b < 10; b++) {
             if (enemyarr[a][b] == 2 && a < 9 && (check.includes(a * 10 + b) == false)) {
@@ -471,7 +472,7 @@ function checkBoatEnd(enemyarr, k) {
                             check.push((a + 2) * 10 + b)
                             check.push((a + 3) * 10 + b)
                             if (soundCheck.includes(a * 10 + b) == false) {
-                                flag=true
+                                flag = true
                                 sound7.play()
                             }
                         }
@@ -482,7 +483,7 @@ function checkBoatEnd(enemyarr, k) {
                                     check.push((a + 1) * 10 + b)
                                     check.push((a + 2) * 10 + b)
                                     if (soundCheck.includes(a * 10 + b) == false) {
-                                        flag=true
+                                        flag = true
                                         sound6.play()
                                     }
                                 }
@@ -492,7 +493,7 @@ function checkBoatEnd(enemyarr, k) {
                                 check.push((a + 1) * 10 + b)
                                 check.push((a + 2) * 10 + b)
                                 if (soundCheck.includes(a * 10 + b) == false) {
-                                    flag=true
+                                    flag = true
                                     sound6.play()
                                 }
                             }
@@ -503,7 +504,7 @@ function checkBoatEnd(enemyarr, k) {
                         check.push((a + 1) * 10 + b)
                         check.push((a + 2) * 10 + b)
                         if (soundCheck.includes(a * 10 + b) == false) {
-                            flag=true
+                            flag = true
                             sound6.play()
                         }
                     }
@@ -513,7 +514,7 @@ function checkBoatEnd(enemyarr, k) {
                                 check.push(a * 10 + b)
                                 check.push((a + 1) * 10 + b)
                                 if (soundCheck.includes(a * 10 + b) == false) {
-                                    flag=true
+                                    flag = true
                                     sound5.play()
                                 }
                             }
@@ -522,7 +523,7 @@ function checkBoatEnd(enemyarr, k) {
                             check.push(a * 10 + b)
                             check.push((a + 1) * 10 + b)
                             if (soundCheck.includes(a * 10 + b) == false) {
-                                flag=true
+                                flag = true
                                 sound5.play()
                             }
                         }
@@ -532,7 +533,7 @@ function checkBoatEnd(enemyarr, k) {
                     check.push(a * 10 + b)
                     check.push((a + 1) * 10 + b)
                     if (soundCheck.includes(a * 10 + b) == false) {
-                        flag=true
+                        flag = true
                         sound5.play()
                     }
                 }
@@ -543,7 +544,7 @@ function checkBoatEnd(enemyarr, k) {
                                 if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3) && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                     check.push(a * 10 + b)
                                     if (soundCheck.includes(a * 10 + b) == false) {
-                                        flag=true
+                                        flag = true
                                         sound4.play()
                                     }
                                 }
@@ -552,7 +553,7 @@ function checkBoatEnd(enemyarr, k) {
                                 if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3)) {
                                     check.push(a * 10 + b)
                                     if (soundCheck.includes(a * 10 + b) == false) {
-                                        flag=true
+                                        flag = true
                                         sound4.play()
                                     }
                                 }
@@ -561,7 +562,7 @@ function checkBoatEnd(enemyarr, k) {
                                 if ((enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                     check.push(a * 10 + b)
                                     if (soundCheck.includes(a * 10 + b) == false) {
-                                        flag=true
+                                        flag = true
                                         sound4.play()
                                     }
                                 }
@@ -573,7 +574,7 @@ function checkBoatEnd(enemyarr, k) {
                             if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3) && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                 check.push(a * 10 + b)
                                 if (soundCheck.includes(a * 10 + b) == false) {
-                                    flag=true
+                                    flag = true
                                     sound4.play()
                                 }
                             }
@@ -582,7 +583,7 @@ function checkBoatEnd(enemyarr, k) {
                             if ((enemyarr[a][b + 1] == 0 || enemyarr[a][b + 1] == 3)) {
                                 check.push(a * 10 + b)
                                 if (soundCheck.includes(a * 10 + b) == false) {
-                                    flag=true
+                                    flag = true
                                     sound4.play()
                                 }
                             }
@@ -591,7 +592,7 @@ function checkBoatEnd(enemyarr, k) {
                             if ((enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3)) {
                                 check.push(a * 10 + b)
                                 if (soundCheck.includes(a * 10 + b) == false) {
-                                    flag=true
+                                    flag = true
                                     sound4.play()
                                 }
                             }
@@ -608,7 +609,7 @@ function checkBoatEnd(enemyarr, k) {
                             check.push(a * 10 + b + 2)
                             check.push(a * 10 + b + 3)
                             if (soundCheck.includes(a * 10 + b) == false) {
-                                flag=true
+                                flag = true
                                 sound7.play()
                             }
                         }
@@ -619,7 +620,7 @@ function checkBoatEnd(enemyarr, k) {
                                     check.push(a * 10 + b + 1)
                                     check.push(a * 10 + b + 2)
                                     if (soundCheck.includes(a * 10 + b) == false) {
-                                        flag=true
+                                        flag = true
                                         sound6.play()
                                     }
                                 }
@@ -629,7 +630,7 @@ function checkBoatEnd(enemyarr, k) {
                                 check.push(a * 10 + b + 1)
                                 check.push(a * 10 + b + 2)
                                 if (soundCheck.includes(a * 10 + b) == false) {
-                                    flag=true
+                                    flag = true
                                     sound6.play()
                                 }
                             }
@@ -640,7 +641,7 @@ function checkBoatEnd(enemyarr, k) {
                         check.push(a * 10 + b + 1)
                         check.push(a * 10 + b + 2)
                         if (soundCheck.includes(a * 10 + b) == false) {
-                            flag=true
+                            flag = true
                             sound6.play()
                         }
                     }
@@ -650,7 +651,7 @@ function checkBoatEnd(enemyarr, k) {
                                 check.push(a * 10 + b)
                                 check.push(a * 10 + b + 1)
                                 if (soundCheck.includes(a * 10 + b) == false) {
-                                    flag=true
+                                    flag = true
                                     sound5.play()
                                 }
                             }
@@ -659,7 +660,7 @@ function checkBoatEnd(enemyarr, k) {
                             check.push(a * 10 + b)
                             check.push(a * 10 + b + 1)
                             if (soundCheck.includes(a * 10 + b) == false) {
-                                flag=true
+                                flag = true
                                 sound5.play()
                             }
                         }
@@ -669,7 +670,7 @@ function checkBoatEnd(enemyarr, k) {
                     check.push(a * 10 + b)
                     check.push(a * 10 + b + 1)
                     if (soundCheck.includes(a * 10 + b) == false) {
-                        flag=true
+                        flag = true
                         sound5.play()
                     }
                 }
@@ -680,7 +681,7 @@ function checkBoatEnd(enemyarr, k) {
                                 if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3) && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                                     check.push(a * 10 + b)
                                     if (soundCheck.includes(a * 10 + b) == false) {
-                                        flag=true
+                                        flag = true
                                         sound4.play()
                                     }
                                 }
@@ -689,7 +690,7 @@ function checkBoatEnd(enemyarr, k) {
                                 if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3)) {
                                     check.push(a * 10 + b)
                                     if (soundCheck.includes(a * 10 + b) == false) {
-                                        flag=true
+                                        flag = true
                                         sound4.play()
                                     }
                                 }
@@ -698,7 +699,7 @@ function checkBoatEnd(enemyarr, k) {
                                 if ((enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                                     check.push(a * 10 + b)
                                     if (soundCheck.includes(a * 10 + b) == false) {
-                                        flag=true
+                                        flag = true
                                         sound4.play()
                                     }
                                 }
@@ -710,7 +711,7 @@ function checkBoatEnd(enemyarr, k) {
                             if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3) && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                                 check.push(a * 10 + b)
                                 if (soundCheck.includes(a * 10 + b) == false) {
-                                    flag=true
+                                    flag = true
                                     sound4.play()
                                 }
                             }
@@ -719,7 +720,7 @@ function checkBoatEnd(enemyarr, k) {
                             if ((enemyarr[a + 1][b] == 0 || enemyarr[a + 1][b] == 3)) {
                                 check.push(a * 10 + b)
                                 if (soundCheck.includes(a * 10 + b) == false) {
-                                    flag=true
+                                    flag = true
                                     sound4.play()
                                 }
                             }
@@ -728,7 +729,7 @@ function checkBoatEnd(enemyarr, k) {
                             if ((enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3)) {
                                 check.push(a * 10 + b)
                                 if (soundCheck.includes(a * 10 + b) == false) {
-                                    flag=true
+                                    flag = true
                                     sound4.play()
                                 }
                             }
@@ -739,7 +740,7 @@ function checkBoatEnd(enemyarr, k) {
             if (a == 9 && b == 9 && (enemyarr[a - 1][b] == 0 || enemyarr[a - 1][b] == 3) && (enemyarr[a][b - 1] == 0 || enemyarr[a][b - 1] == 3) && (check.includes(a * 10 + b) == false) && enemyarr[a][b] == 2) {
                 check.push(a * 10 + b)
                 if (soundCheck.includes(a * 10 + b) == false) {
-                    flag=true
+                    flag = true
                     sound4.play()
                 }
             }
@@ -749,7 +750,7 @@ function checkBoatEnd(enemyarr, k) {
     console.log(check);
     console.log(soundCheck.length)
     console.log(check.length);
-    if(flag==false){
+    if (flag == false) {
         sound2.play()
     }
     if (check.length == 20) {
@@ -759,6 +760,7 @@ function checkBoatEnd(enemyarr, k) {
     localStorage.setItem('checkArr', JSON.stringify(check))
     paint(enemyarr)
 }
+
 function gameGoing() {
     document.addEventListener('click', function (e) {
         console.log(e.target.id);
@@ -876,7 +878,7 @@ function deleteGame() {
     })
 }
 
-if (document.title == "Game") {
+if (document.title == "Бой") {
     loseButton.addEventListener('click', function () {
         localStorage.removeItem('myarr')
         localStorage.removeItem('enemyarr')
@@ -931,8 +933,6 @@ if (document.title == "Game") {
             }
         }
     })
-
-
     readyButton.addEventListener('click', function () {
         let boatsArr = {}
         let chekedArr = []
@@ -1044,9 +1044,7 @@ if (document.title == "Game") {
                         onefieldboat += 1
                         chekedArr[chekedArr.length] = i * 10 + j
                     }
-
                 }
-
             }
         }
         for (let i = 0; i < 10; i++) {
@@ -1118,7 +1116,6 @@ if (document.title == "Game") {
                             nearby = false
                         }
                     }
-
                     if (chekedArr.includes((i + 1) * 10 + j) && j == 9) {
                         if (chekedArr.includes((i + 2) * 10 + j)) {
                             if (chekedArr.includes((i + 3) * 10 + j)) {
@@ -1367,7 +1364,5 @@ if (document.title == "Game") {
         } else {
             alert('Неверное количество однопалубных кораблей')
         }
-
     })
-
 }
