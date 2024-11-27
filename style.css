@@ -256,6 +256,9 @@ footer {
         cursor: pointer;
         margin: auto;
     }
+    .twoFieldsBox{
+        margin-bottom: 1450px;
+    }
 }
 
 @media(min-width:1px)and (max-width:800px) {
@@ -299,5 +302,8 @@ footer {
         cursor: pointer;
         margin: auto;
         margin-right: 27%;
+    }
+    .twoFieldsBox{
+        margin-bottom: 1450px;
     }
 }
