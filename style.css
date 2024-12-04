@@ -1,8 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;900&display=swap');
+html{
+    font-family: Roboto;
+}
 body {
-    background-color: #DCECF2;
+    background-color: #222831;
     min-width: 200px;
 }
 .registration-box {
+    color: #C5C5C5;
     margin-left: 15%;
     margin-right: 15%;
     margin-top: 10%;
@@ -13,7 +20,7 @@ body {
     align-items: center;
     padding: 5%;
     border-radius: 20px;
-    background-color: rgb(129, 216, 208);
+    background-color: #454e59;
 }
 .nickname,
 .login,
@@ -22,6 +29,8 @@ body {
     margin-bottom: 2%;
     height: 30px;
     border-radius: 5px;
+    background-color: #454e59;
+    color: #C5C5C5;
 }
 header {
     margin: 0;
@@ -31,31 +40,40 @@ header {
     top: 0;
     position: fixed;
     width: 100%;
-    background-color: rgb(129, 216, 208);
+    background-color: #454e59;
     height: 100px;
     z-index: 100;
+    color:#C5C5C5
 }
 ul {
     display: flex;
     margin: 0;
     width: 100%;
 }
+
 a {
     list-style-type: none;
     margin: 0px 4% 0px 4%;
     text-decoration: none;
     align-items: center;
     display: flex;
-    color: rgb(2, 10, 24);
+    color: #C5C5C5;
     font-size: 26px;
     font-weight: 500;
     width: 100px;
 }
+a:hover{
+    color: rgb(151, 151, 151);
+}
+
+
 .registration-button {
     width: 30%;
     height: auto;
     padding: 5px;
     cursor: pointer;
+    color: #C5C5C5;
+    background-color: #454e59;
 }
 footer {
     position: fixed;
@@ -63,18 +81,22 @@ footer {
     bottom: 0;
     height: 100px;
     width: 100%;
-    background-color: rgb(129, 216, 208);
+    background-color: #454e59;
 }
 .exitButton {
     height: auto;
     width: auto;
     cursor: pointer;
+    color: #C5C5C5;
+    background-color: #454e59;
 }
 .CreateField {
     width: auto;
     padding: 5px;
     cursor: pointer;
     position: relative;
+    color: #C5C5C5;
+    background-color: #222831;
 }
 .fieldsUl {
     margin-top: 10px;
@@ -90,6 +112,8 @@ footer {
     padding: 30px;
     border: 1px solid grey;
     margin-top: 5px;
+    color: #C5C5C5;
+    background-color: #454e59;
 }
 .div1{
     margin-top: 110px;
@@ -104,7 +128,7 @@ footer {
     display: flex;
     flex-direction: column;
     aspect-ratio: 1 / 1;
-    background-color: black;
+    background-color: #AAE3E2;
 }
 .fieldLine{
     display: flex;
@@ -115,13 +139,15 @@ footer {
     display: flex;
     flex-direction: column;
     aspect-ratio: 1 / 1;
-    background-color: black;
+    background-color: #AAE3E2;
 }
 .exitGameButton {
     margin-left: 5%;
     width: auto;
     height: 30%;
     cursor: pointer;
+    color:#C5C5C5;
+    background-color: #454e59;
 }
 .createFieldAdmin {
     display: flex;
@@ -140,7 +166,8 @@ footer {
     margin: 5%;
     margin-top: 150px;
     padding: 20px;
-    background-color: rgb(129, 216, 208);
+    background-color:#454e59;
+    color: #C5C5C5;
 }
 .twoFieldsBox {
     display: flex;
@@ -152,27 +179,33 @@ footer {
     margin-top: 50px;
 }
 .startGameButton {
+    font-size: 180%;
     margin-top: 20%;
     margin-left: 40%;
     padding: 5% 10% 5% 10%;
+    color: #C5C5C5;
+    background-color: #454e59;
 }
 .fieldText {
     padding-top: 15vh;
     padding-bottom: -20vh;
     font-size: 40px;
     display: flex;
+    color:#C5C5C5;
 }
 .fieldElement,.fieldElement1{
     width: 78px;
     margin: 1px 1px 1px 1px;
     height: 78px;
-    background: antiquewhite;
+    background: #454e59;
+    border-radius: 1px;
+    border-color: #AAE3E2;
 }
 .fieldElement2{
     width: 78px;
     margin: 1px 1px 1px 1px;
     height: 78px;
-    background: red;
+    background: #AC7DD2;
 }
 .fieldElement4{
     width: 78px;
@@ -184,7 +217,6 @@ footer {
     width: 78px;
     margin: 1px 1px 1px 1px;
     height: 78px;
-    background: rgb(0, 68, 255);
 }
 .mineblock{
     padding-top: 20vh;
@@ -198,6 +230,8 @@ footer {
     height: 50px;
     margin-left: 5%;
     cursor: pointer;
+    color: #C5C5C5;
+    background-color: #454e59;
 }
 .rate{
     position: absolute;
